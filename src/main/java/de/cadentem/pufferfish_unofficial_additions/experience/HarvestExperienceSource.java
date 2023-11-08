@@ -61,15 +61,11 @@ public class HarvestExperienceSource implements ExperienceSource {
 
     private record Context(ServerPlayer player, BlockState blockState, ItemStack tool, ObjectArrayList<ItemStack> generatedLoot) {
         public double droppedSeeds() {
-            AtomicInteger amount = new AtomicInteger(0);
-            generatedLoot.stream().filter(item -> item.is(Tags.Items.SEEDS)).forEach(item -> amount.getAndAdd(item.getCount()));
-            return amount.get();
+            return generatedLoot.stream().filter(item -> item.is(Tags.Items.SEEDS)).mapToInt(ItemStack::getCount).sum();
         }
 
         public double droppedCrops() {
-            AtomicInteger amount = new AtomicInteger(0);
-            generatedLoot.stream().filter(item -> item.is(Tags.Items.CROPS)).forEach(item -> amount.getAndAdd(item.getCount()));
-            return amount.get();
+            return generatedLoot.stream().filter(item -> item.is(Tags.Items.CROPS)).mapToInt(ItemStack::getCount).sum();
         }
     }
 }

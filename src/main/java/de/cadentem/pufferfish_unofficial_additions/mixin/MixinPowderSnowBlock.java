@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(PowderSnowBlock.class)
 public abstract class MixinPowderSnowBlock {
+    @SuppressWarnings("unused")
     @WrapOperation(method = "canEntityWalkOnPowderSnow", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityType;is(Lnet/minecraft/tags/TagKey;)Z"))
     private static boolean pufferfish_unofficial_additions$checkSkill(final EntityType<?> instance, TagKey<EntityType<?>> entityTypeTagKey, final Operation<Boolean> original, /* Method arguments: */ final Entity entity) {
         if (entity instanceof Player player) {

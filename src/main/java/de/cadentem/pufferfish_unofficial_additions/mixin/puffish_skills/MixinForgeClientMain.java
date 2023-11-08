@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "net.puffish.skillsmod.main.ForgeClientMain$KeyBindingReceiverImpl", remap = false)
 public abstract class MixinForgeClientMain {
     /** Can be null during datagen */
+    @SuppressWarnings("ConstantConditions")
     @Inject(method = "registerKeyBinding", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getInstance()Lnet/minecraft/client/Minecraft;", shift = At.Shift.BEFORE, remap = true), cancellable = true)
     private void pufferfish_unofficial_additions$avoidNullPointer(final KeyMapping keyBinding, final KeyBindingHandler handler, final CallbackInfo callback) {
         if (Minecraft.getInstance() == null) {

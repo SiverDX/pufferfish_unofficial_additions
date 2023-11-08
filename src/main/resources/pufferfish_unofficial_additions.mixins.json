@@ -7,6 +7,7 @@
   "refmap": "pufferfish_unofficial_additions.refmap.json",
   "mixins": [
     "MixinLootTable",
+    "MixinPowderSnowBlock",
     "aquaculture.MixinAquaFishingRodItem",
     "irons_spellbooks.MixinAbstractSpell",
     "irons_spellbooks.MixinScroll",

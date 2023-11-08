@@ -37,15 +37,7 @@ public class HarvestLootAmplifier extends LootModifier {
         Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
 
         if (entity instanceof ServerPlayer serverPlayer && state.is(BlockTags.CROPS)) {
-            // Only multiply the drop rate for the crop, not the seeds
-            List<ItemStack> filtered = generatedLoot.stream().filter(item -> !item.is(Tags.Items.SEEDS)).toList();
-
-            if (!filtered.isEmpty()) {
-                filtered.forEach(item -> {
-                    // Increase the amount of crops harvested
-                    item.setCount(PUAAttributes.getIntValue(serverPlayer, PUAAttributes.HARVEST_BONUS.get(), item.getCount()));
-                });
-            }
+            generatedLoot.stream().filter(item -> item.is(Tags.Items.CROPS)).forEach(item -> item.setCount(PUAAttributes.getIntValue(serverPlayer, PUAAttributes.HARVEST_BONUS.get(), item.getCount())));
         }
 
         return generatedLoot;
