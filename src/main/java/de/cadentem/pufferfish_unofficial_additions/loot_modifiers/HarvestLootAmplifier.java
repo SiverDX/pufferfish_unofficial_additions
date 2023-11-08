@@ -17,8 +17,6 @@ import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class HarvestLootAmplifier extends LootModifier {
     public static final String ID = "harvest_loot_amplifier";
     public static final Codec<HarvestLootAmplifier> CODEC = RecordCodecBuilder.create(instance -> LootModifier.codecStart(instance).apply(instance, HarvestLootAmplifier::new));

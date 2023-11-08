@@ -19,7 +19,6 @@ import net.puffish.skillsmod.api.utils.failure.Failure;
 import net.puffish.skillsmod.experience.calculation.CalculationManager;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HarvestExperienceSource implements ExperienceSource {
     public static final ResourceLocation ID = new ResourceLocation(PUA.MODID, "harvest_crops");
