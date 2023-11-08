@@ -16,7 +16,7 @@ public abstract class MixinPowderSnowBlock {
     @WrapOperation(method = "canEntityWalkOnPowderSnow", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityType;is(Lnet/minecraft/tags/TagKey;)Z"))
     private static boolean pufferfish_unofficial_additions$checkSkill(final EntityType<?> instance, TagKey<EntityType<?>> entityTypeTagKey, final Operation<Boolean> original, /* Method arguments: */ final Entity entity) {
         if (entity instanceof Player player) {
-            if (!player.getTags().contains("walk_on_powder_snow")) {
+            if (player.getTags().contains("walk_on_powder_snow")) {
                 return true;
             }
         }
