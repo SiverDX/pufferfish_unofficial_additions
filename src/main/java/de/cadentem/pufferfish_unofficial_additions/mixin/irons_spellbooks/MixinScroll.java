@@ -14,10 +14,20 @@ public class MixinScroll {
     /** Grants the chance to not consume the used scroll (skill) */
     @WrapOperation(method = "removeScrollAfterCast", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isCreative()Z"))
     private boolean pufferfish_unofficial_additions$considerSkill(final ServerPlayer instance, final Operation<Boolean> original) {
+        if (instance.isCreative()) {
+            return true;
+        }
+
         AttributeInstance attributeInstance = instance.getAttribute(Attributes.KEEP_SCROLL.get());
 
         if (attributeInstance != null) {
-            if (instance.getRandom().nextFloat() > attributeInstance.getValue()) {
+            double value = attributeInstance.getValue();
+
+            if (value == 0) {
+                return false;
+            }
+
+            if (attributeInstance.getValue() >= instance.getRandom().nextFloat()) {
                 return true;
             }
         }

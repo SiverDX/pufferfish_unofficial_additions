@@ -119,11 +119,129 @@ How it works:
 - The three attribute types function as one - their modifiers are gathered together before calculation
 - There is no rounding - meaning a spell level of `1.75` will result in `1`
 
+Examples:
+```json
+{
+  "spell_mastery_keystone": {
+    "title": "Spell Mastery",
+    "description": "Increases the level of your spells by 40%",
+    "frame": {
+      "type": "advancement",
+      "data": {
+        "frame": "challenge"
+      }
+    },
+    "icon": {
+      "type": "effect",
+      "data": {
+        "effect": "minecraft:glowing"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "pufferfish_unofficial_additions:spell_general",
+          "value": 0.4,
+          "operation": "multiply_total"
+        }
+      }
+    ]
+  },
+  "blood_slash_major": {
+    "title": "Blood Slash Mastery",
+    "description": "Increases the level of [Blood Slash] by 1",
+    "frame": {
+      "type": "advancement",
+      "data": {
+        "frame": "challenge"
+      }
+    },
+    "icon": {
+      "type": "item",
+      "data": {
+        "effect": "irons_spellbooks:scroll"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "pufferfish_unofficial_additions:spell_type_blood_slash",
+          "value": 1,
+          "operation": "addition"
+        }
+      }
+    ]
+  },
+  "fire_school_mastery": {
+    "title": "Fire School Mastery",
+    "description": "Increases the level [Fire] spells by 1",
+    "frame": {
+      "type": "advancement",
+      "data": {
+        "frame": "challenge"
+      }
+    },
+    "icon": {
+      "type": "item",
+      "data": {
+        "effect": "irons_spellbooks:fire_rune"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "pufferfish_unofficial_additions:spell_school_fire",
+          "value": 1,
+          "operation": "addition"
+        }
+      }
+    ]
+  }
+}
+```
+
+---
+
 Added an attribute to potentially not use up a scroll
 - `pufferfish_unofficial_additions:keep_scroll`
 - Value between `0` (`0%` chance) and 1 (`100%` chance)
 - Using `multiply_base` will have no effect since the base value is `0`
 - Using `multiply_total` without prior `addition` will also have no effect
+
+Example:
+```json
+{
+  "magic_root": {
+    "title": "Experienced Magician",
+    "description": "50% Chance to keep your Scroll after casting",
+    "frame": {
+      "type": "advancement",
+      "data": {
+        "frame": "challenge"
+      }
+    },
+    "icon": {
+      "type": "item",
+      "data": {
+        "item": "irons_spellbooks:scroll"
+      }
+    },
+    "rewards": [
+      {
+        "type": "puffish_skills:attribute",
+        "data": {
+          "attribute": "pufferfish_unofficial_additions:keep_scroll",
+          "value": 0.5,
+          "operation": "addition"
+        }
+      }
+    ]
+  }
+}
+```
 
 ### School Types
 See https://github.com/iron431/Irons-Spells-n-Spellbooks/blob/1.19.2/src/main/java/io/redspace/ironsspellbooks/api/registry/SchoolRegistry.java

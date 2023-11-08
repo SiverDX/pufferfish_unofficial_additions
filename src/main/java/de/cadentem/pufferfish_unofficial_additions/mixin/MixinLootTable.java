@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = LootTable.class, priority = 1500)
 public class MixinLootTable {
     @Inject(method = "getRandomItems(Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", at = @At("RETURN"))
-    private void applyExperienceSource(final LootContext context, final CallbackInfoReturnable<ObjectArrayList<ItemStack>> callback, @Local final LocalRef<ObjectArrayList<ItemStack>> generatedLoot) {
+    private void pufferfish_unofficial_additions$applyExperienceSource(final LootContext context, final CallbackInfoReturnable<ObjectArrayList<ItemStack>> callback, @Local final LocalRef<ObjectArrayList<ItemStack>> generatedLoot) {
         if (!context.hasParam(LootContextParams.BLOCK_STATE) || !context.hasParam(LootContextParams.THIS_ENTITY)) {
             return;
         }

@@ -18,17 +18,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = AquaFishingRodItem.class)
 public abstract class MixinAquaFishingRodItem {
     @Inject(method = "use", at = @At("HEAD"))
-    private void trialanderror$storePlayer(final Level level, final Player player, final InteractionHand hand, final CallbackInfoReturnable<InteractionResultHolder<ItemStack>> callback, @Share("player") final LocalRef<Player> storedPlayer) {
+    private void pufferfish_unofficial_additions$storePlayer(final Level level, final Player player, final InteractionHand hand, final CallbackInfoReturnable<InteractionResultHolder<ItemStack>> callback, @Share("player") final LocalRef<Player> storedPlayer) {
         storedPlayer.set(player);
     }
 
     @ModifyArg(method = "use", at = @At(value = "INVOKE", target = "Lcom/teammetallurgy/aquaculture/entity/AquaFishingBobberEntity;<init>(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;IILcom/teammetallurgy/aquaculture/api/fishing/Hook;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)V"), index = 3)
-    private int trialanderror$amplifyLure(int original, @Share("player") final LocalRef<Player> storedPlayer) {
+    private int pufferfish_unofficial_additions$amplifyLure(int original, @Share("player") final LocalRef<Player> storedPlayer) {
         return PUAAttributes.getIntValue(storedPlayer.get(), PUAAttributes.FISHING_LURE.get(), original);
     }
 
     @ModifyArg(method = "use", at = @At(value = "INVOKE", target = "Lcom/teammetallurgy/aquaculture/entity/AquaFishingBobberEntity;<init>(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;IILcom/teammetallurgy/aquaculture/api/fishing/Hook;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)V"), index = 2)
-    private int trialanderror$amplifyLuck(int original, @Share("player") final LocalRef<Player> storedPlayer) {
+    private int pufferfish_unofficial_additions$amplifyLuck(int original, @Share("player") final LocalRef<Player> storedPlayer) {
         return PUAAttributes.getIntValue(storedPlayer.get(), PUAAttributes.FISHING_LUCK.get(), original);
     }
 }
