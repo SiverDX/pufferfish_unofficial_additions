@@ -160,7 +160,7 @@ Examples:
     "icon": {
       "type": "item",
       "data": {
-        "effect": "irons_spellbooks:scroll"
+        "item": "irons_spellbooks:scroll"
       }
     },
     "rewards": [
@@ -176,7 +176,7 @@ Examples:
   },
   "fire_school_mastery": {
     "title": "Fire School Mastery",
-    "description": "Increases the level [Fire] spells by 1",
+    "description": "Increases the level of [Fire] spells by 1",
     "frame": {
       "type": "advancement",
       "data": {
@@ -186,7 +186,7 @@ Examples:
     "icon": {
       "type": "item",
       "data": {
-        "effect": "irons_spellbooks:fire_rune"
+        "item": "irons_spellbooks:fire_rune"
       }
     },
     "rewards": [

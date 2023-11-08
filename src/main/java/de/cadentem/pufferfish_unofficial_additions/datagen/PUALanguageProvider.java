@@ -38,35 +38,29 @@ public class PUALanguageProvider extends LanguageProvider {
 
             if (path.contains("spell_general")) {
                 readable.append("General Spell Level");
-            } else {
-                String[] split = path.split("_");
+                add("attribute." + location.toLanguageKey(), readable.toString());
+                add("attribute." + location.toLanguageKey() + ".desc", "Modifies the level of all spells");
 
-                if (split.length > 2) {
-                    for (int i = 2; i < split.length; i++) {
-                        readable.append(Character.toUpperCase(split[i].charAt(0)));
-                        readable.append(split[i].substring(1));
-
-                        if (i != split.length - 1) {
-                            readable.append(" ");
-                        } else {
-                            if (path.contains("spell_school")) {
-                                readable.append(" School Level");
-                            } else if (path.contains("spell_type")) {
-                                readable.append(" Spell Level");
-                            }
-                        }
-                    }
-                }
+                return;
             }
 
-            add("attribute." + location.toLanguageKey(), readable.toString());
+            String[] split = path.split("_");
 
-            if (path.contains("spell_school")) {
-                add("attribute." + location.toLanguageKey() + ".desc", "Modifies the level of all spells of this school");
-            } else if (path.contains("spell_type")) {
-                add("attribute." + location.toLanguageKey() + ".desc", "Modifies the level of this spell");
-            } else if (path.contains("spell_general")) {
-                add("attribute." + location.toLanguageKey() + ".desc", "Modifies the level of all spells");
+            for (/* Skip prefix (e.g. `spell_type_`) */ int i = 2; i < split.length; i++) {
+                readable.append(Character.toUpperCase(split[i].charAt(0)));
+                readable.append(split[i].substring(1));
+
+                if (i != split.length - 1) {
+                    readable.append(" ");
+                } else {
+                    if (path.contains("spell_school")) {
+                        add("attribute." + location.toLanguageKey(), readable.append(" School Level").toString());
+                        add("attribute." + location.toLanguageKey() + ".desc", "Modifies the level of all spells of this school");
+                    } else if (path.contains("spell_type")) {
+                        add("attribute." + location.toLanguageKey(), readable.append(" Spell Level").toString());
+                        add("attribute." + location.toLanguageKey() + ".desc", "Modifies the level of this spell");
+                    }
+                }
             }
         });
     }
