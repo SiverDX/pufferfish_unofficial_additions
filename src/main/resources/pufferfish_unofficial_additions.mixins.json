@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "package": "de.cadentem.pufferfish_unofficial_additions.mixin",
+  "plugin": "de.cadentem.pufferfish_unofficial_additions.mixin.ApplyMixinPlugin",
+  "refmap": "pufferfish_unofficial_additions.refmap.json",
+  "mixins": [
+    "MixinLootTable",
+    "aquaculture.MixinAquaFishingRodItem",
+    "irons_spellbooks.MixinAbstractSpell",
+    "irons_spellbooks.MixinScroll",
+    "irons_spellbooks.MixinSchoolRegistry",
+    "irons_spellbooks.MixinSpellRegistry"
+  ],
+  "client": [
+    "puffish_skills.MixinForgeClientMain"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

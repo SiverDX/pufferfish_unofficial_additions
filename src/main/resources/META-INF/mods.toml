@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+license="${mod_license}"
+
+[[mods]]
+modId = "pufferfish_unofficial_additions"
+displayTest="IGNORE_ALL_VERSION"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_author}"
+description = '''
+${mod_description}
+'''
+itemIcon = "minecraft:book"
+
+[[dependencies.pufferfish_unofficial_additions]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.pufferfish_unofficial_additions]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.pufferfish_unofficial_additions]]
+modId = "puffish_skills"
+mandatory = true
+versionRange = "[0.10,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.pufferfish_unofficial_additions]]
+modId = "irons_spellbooks"
+mandatory = false
+versionRange = "[1.19.2-2,)"
+ordering = "AFTER"
+side = "CLIENT"
