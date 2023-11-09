@@ -1,3 +1,9 @@
+# General
+Addon to https://www.curseforge.com/minecraft/mc-mods/puffish-skills
+
+Contains support for
+- https://www.curseforge.com/minecraft/mc-mods/irons-spells-n-spellbooks
+
 # Experience Source
 ## Harvesting Crops
 Hooks into the method which gets the items from the loot table
