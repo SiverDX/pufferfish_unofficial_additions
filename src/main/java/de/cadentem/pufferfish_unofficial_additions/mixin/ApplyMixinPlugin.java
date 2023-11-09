@@ -17,6 +17,11 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
+        if (mixinClassName.equals("de.cadentem.pufferfish_unofficial_additions.mixin.MixinFishingHook")) {
+            // Not needed with Apotheosis present
+            return LoadingModList.get().getModFileById("apotheosis") == null;
+        }
+
         String modid = mixinClassName
                 .replace("de.cadentem.pufferfish_unofficial_additions.mixin.", "") // General package
                 .replaceAll("\\.?Mixin.*", "") // Mixin class name
