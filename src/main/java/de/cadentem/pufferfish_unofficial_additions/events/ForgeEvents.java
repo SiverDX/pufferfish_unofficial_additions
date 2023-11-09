@@ -3,6 +3,7 @@ package de.cadentem.pufferfish_unofficial_additions.events;
 import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.registry.PUAAttributes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -19,9 +20,15 @@ public class ForgeEvents {
         }
 
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-            event.getDrops().forEach(drop -> SkillsMod.getInstance().visitExperienceSources(serverPlayer, experienceSource ->
-                    experienceSource instanceof FishingExperienceSource fishingExperienceSource ? fishingExperienceSource.getValue(serverPlayer, serverPlayer.getMainHandItem(), drop) : 0
-            ));
+            if (event.getDrops().isEmpty()) {
+               SkillsMod.getInstance().visitExperienceSources(serverPlayer, experienceSource ->
+                        experienceSource instanceof FishingExperienceSource fishingExperienceSource ? fishingExperienceSource.getValue(serverPlayer, serverPlayer.getMainHandItem(), ItemStack.EMPTY) : 0
+                );
+            } else {
+                event.getDrops().forEach(drop -> SkillsMod.getInstance().visitExperienceSources(serverPlayer, experienceSource ->
+                        experienceSource instanceof FishingExperienceSource fishingExperienceSource ? fishingExperienceSource.getValue(serverPlayer, serverPlayer.getMainHandItem(), drop) : 0
+                ));
+            }
         }
     }
 
