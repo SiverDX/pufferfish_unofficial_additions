@@ -7,6 +7,7 @@
   "refmap": "pufferfish_unofficial_additions.refmap.json",
   "mixins": [
     "MixinFishingHook",
+    "MixinLivingEntity",
     "MixinLootTable",
     "MixinPowderSnowBlock",
     "aquaculture.MixinAquaFishingBobberEntity",

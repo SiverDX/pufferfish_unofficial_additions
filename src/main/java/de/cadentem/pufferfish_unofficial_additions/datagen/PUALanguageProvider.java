@@ -3,12 +3,13 @@ package de.cadentem.pufferfish_unofficial_additions.datagen;
 import de.cadentem.pufferfish_unofficial_additions.PUA;
 import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.Attributes;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class PUALanguageProvider extends LanguageProvider {
-    public PUALanguageProvider(final DataGenerator generator, final String locale) {
-        super(generator, PUA.MODID, locale);
+    public PUALanguageProvider(final PackOutput output, final String locale) {
+        super(output, PUA.MODID, locale);
     }
 
     @Override

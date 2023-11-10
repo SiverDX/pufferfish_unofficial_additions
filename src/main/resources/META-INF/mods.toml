@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[43,)"
+loaderVersion = "[46,)"
 license="${mod_license}"
 
 [[mods]]
@@ -16,14 +16,14 @@ itemIcon = "minecraft:book"
 [[dependencies.pufferfish_unofficial_additions]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[46,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.pufferfish_unofficial_additions]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.2,)"
+versionRange = "[1.20,)"
 ordering = "NONE"
 side = "CLIENT"
 

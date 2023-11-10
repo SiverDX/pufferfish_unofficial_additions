@@ -13,7 +13,7 @@ public class DataGen {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        generator.addProvider(event.includeClient(), new PUALanguageProvider(generator, "en_us"));
-        generator.addProvider(event.includeServer(), new PUALootModifiers(generator));
+        generator.addProvider(event.includeClient(), new PUALanguageProvider(generator.getPackOutput(), "en_us"));
+        generator.addProvider(event.includeServer(), new PUALootModifiers(generator.getPackOutput()));
     }
 }
