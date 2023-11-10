@@ -19,7 +19,7 @@ public abstract class MixinAquaFishingBobberEntity extends FishingHook {
     }
 
     @Inject(method = "catchingFish", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, ordinal = 11, shift = At.Shift.AFTER))
-    private void fixLure(final BlockPos position, final CallbackInfo callback) {
+    private void pufferfish_unofficial_additions$fixLure(final BlockPos position, final CallbackInfo callback) {
         timeUntilLured = Utils.getTicksCaughtDelay(this);
     }
 }

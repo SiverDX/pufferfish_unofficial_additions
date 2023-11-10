@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FishingHook.class)
 public abstract class MixinFishingHook {
     @Inject(method = "catchingFish", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/world/entity/projectile/FishingHook;timeUntilLured:I", ordinal = 3, shift = At.Shift.AFTER))
-    private void fixLure(final BlockPos position, final CallbackInfo callback) {
+    private void pufferfish_unofficial_additions$fixLure(final BlockPos position, final CallbackInfo callback) {
         FishingHook instance = (FishingHook) (Object) this;
         timeUntilLured = Utils.getTicksCaughtDelay(instance);
     }
