@@ -4,6 +4,7 @@ import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceS
 import de.cadentem.pufferfish_unofficial_additions.registry.PUAAttributes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -11,7 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.puffish.skillsmod.SkillsMod;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(value = Dist.DEDICATED_SERVER)
 public class ForgeEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void grantFishingExperience(final ItemFishedEvent event) {

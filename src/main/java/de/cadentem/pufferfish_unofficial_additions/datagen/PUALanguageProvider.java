@@ -1,7 +1,7 @@
 package de.cadentem.pufferfish_unofficial_additions.datagen;
 
 import de.cadentem.pufferfish_unofficial_additions.PUA;
-import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.Attributes;
+import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISAttributes;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -28,8 +28,8 @@ public class PUALanguageProvider extends LanguageProvider {
         add("attribute." + PUA.MODID + ".keep_scroll", "Keep Scroll");
         add("attribute." + PUA.MODID + ".keep_scroll.desc", "Chance to not use up a spell scroll");
 
-        Attributes.ATTRIBUTES.getEntries().forEach(attribute -> {
-            if (attribute == Attributes.KEEP_SCROLL) {
+        ISAttributes.ATTRIBUTES.getEntries().forEach(attribute -> {
+            if (attribute == ISAttributes.KEEP_SCROLL) {
                 return;
             }
 

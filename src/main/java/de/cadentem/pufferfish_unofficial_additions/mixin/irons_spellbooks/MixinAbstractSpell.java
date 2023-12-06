@@ -2,7 +2,7 @@ package de.cadentem.pufferfish_unofficial_additions.mixin.irons_spellbooks;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import de.cadentem.pufferfish_unofficial_additions.PUA;
-import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.Attributes;
+import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISAttributes;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraft.resources.ResourceLocation;
@@ -60,7 +60,7 @@ public abstract class MixinAbstractSpell {
                 result *= 1 + modifier.getAmount();
             }
 
-            return (int) Mth.clamp(result, 0, Math.max(Attributes.MAX, original));
+            return (int) Mth.clamp(result, 0, Math.max(ISAttributes.MAX, original));
         }
 
         return original;

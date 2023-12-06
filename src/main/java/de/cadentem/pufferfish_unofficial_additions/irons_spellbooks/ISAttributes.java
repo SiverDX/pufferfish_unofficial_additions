@@ -5,12 +5,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class Attributes {
+public class ISAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.Keys.ATTRIBUTES, PUA.MODID);
     public static final int MAX = 100;
 
@@ -25,7 +24,6 @@ public class Attributes {
         PUA.LOG.debug("Registered attribute [{}]", id);
     }
 
-    @SubscribeEvent
     public static void setAttributes(final EntityAttributeModificationEvent event) {
         ATTRIBUTES.getEntries().forEach(attribute -> event.add(EntityType.PLAYER, attribute.get()));
     }

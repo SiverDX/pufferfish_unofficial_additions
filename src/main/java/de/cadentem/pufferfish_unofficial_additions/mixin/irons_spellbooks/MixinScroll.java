@@ -2,7 +2,7 @@ package de.cadentem.pufferfish_unofficial_additions.mixin.irons_spellbooks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.Attributes;
+import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISAttributes;
 import io.redspace.ironsspellbooks.item.Scroll;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -19,7 +19,7 @@ public abstract class MixinScroll {
             return true;
         }
 
-        AttributeInstance attributeInstance = instance.getAttribute(Attributes.KEEP_SCROLL.get());
+        AttributeInstance attributeInstance = instance.getAttribute(ISAttributes.KEEP_SCROLL.get());
 
         if (attributeInstance != null) {
             if (instance.getRandom().nextFloat() < attributeInstance.getValue()) {
