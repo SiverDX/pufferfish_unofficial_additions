@@ -114,6 +114,82 @@ Can be used to increase the amount of harvested items
 - The base value is the initial harvested amount
 
 ## Iron's Spells 'n Spellbooks
+### Experience Sources
+Added an experience source for casting spells
+
+Parameters:
+- `level` / `min_level` / `max_level` belong to the spell being cast
+- `rarity` is the ordinal of the rarity (0 is COMMON and 4 is LEGENDARY)
+- `mana_cost` is the mana cost for the spell at that level
+
+Conditions:
+- Item is the item in hand when the spell was initialized
+- `school_type` is the school type of the spell (link for all ids at the bottom)
+- `spell_id` is the spell being cast (link for all ids at the bottom)
+
+Example:
+```json
+{
+  "type": "pufferfish_unofficial_additions:spell_casting",
+  "data": {
+    "parameters": {
+      "level": {
+        "type": "level"
+      },
+      "min_level": {
+        "type": "min_level"
+      },
+      "max_level": {
+        "type": "max_level"
+      },
+      "rarity": {
+        "type": "rarity"
+      },
+      "mana_cost": {
+        "type": "mana_cost"
+      }
+    },
+    "conditions": {
+      "spellbook": {
+        "type": "item",
+        "data": {
+          "item": "irons_spellbooks:iron_spell_book"
+        }
+      },
+      "fire_school": {
+        "type": "school_type",
+        "data": {
+          "value": "irons_spellbooks:fire"
+        }
+      },
+      "blaze_storm": {
+        "type": "spell_id",
+        "data": {
+          "value": "irons_spellbooks:blaze_storm"
+        }
+      },
+      "black_hole": {
+        "type": "spell_id",
+        "data": {
+          "value": "irons_spellbooks:black_hole"
+        }
+      }
+    },
+    "experience": [
+      {
+        "condition": "spellbook & !blaze_storm & fire_school",
+        "expression": "level * 2"
+      },
+      {
+        "condition": "black_hole",
+        "expression": "level + (mana_cost / 10)"
+      }
+    ]
+  }
+}
+```
+
+### Rewards
 Added attributes to increase (or lower) spell levels
 - General attribute (meaning all spells) (`pufferfish_unofficial_additions:spell_general`)
 - Attribute for each school type (`pufferfish_unofficial_additions:spell_school_<...>`)
