@@ -1,6 +1,6 @@
 package de.cadentem.pufferfish_unofficial_additions.mixin.irons_spellbooks;
 
-import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.Attributes;
+import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISAttributes;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraftforge.registries.RegistryObject;
@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinSchoolRegistry {
     @Inject(method = "registerSchool", at = @At("RETURN"))
     private static void pufferfish_unofficial_additions$registerSchool(final SchoolType schoolType, final CallbackInfoReturnable<RegistryObject<SchoolType>> callback) {
-        Attributes.createAttribute("spell_school_" + schoolType.getId().getPath());
+        ISAttributes.createAttribute("spell_school_" + schoolType.getId().getPath());
     }
 }

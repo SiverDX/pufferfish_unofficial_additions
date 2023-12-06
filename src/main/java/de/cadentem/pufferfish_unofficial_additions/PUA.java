@@ -3,10 +3,13 @@ package de.cadentem.pufferfish_unofficial_additions;
 import com.mojang.logging.LogUtils;
 import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.experience.HarvestExperienceSource;
-import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.Attributes;
-import de.cadentem.pufferfish_unofficial_additions.loot_modifiers.HarvestLootAmplifier;
+import de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks.SpellCastingExperience;
+import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISAttributes;
+import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISEvents;
 import de.cadentem.pufferfish_unofficial_additions.registry.PUAAttributes;
 import de.cadentem.pufferfish_unofficial_additions.registry.PUALootModifiers;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -28,8 +31,10 @@ public class PUA {
         PUAAttributes.ATTRIBUTES.register(modEventBus);
 
         if (ModList.get().isLoaded("irons_spellbooks")) {
-            Attributes.ATTRIBUTES.register(modEventBus);
-            modEventBus.addListener(Attributes::setAttributes);
+            ISAttributes.ATTRIBUTES.register(modEventBus);
+            SpellCastingExperience.register();
+            modEventBus.addListener(ISAttributes::setAttributes);
+            MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, ISEvents::handleSpellCast);
         }
     }
 }
