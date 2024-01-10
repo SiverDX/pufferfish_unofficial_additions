@@ -25,18 +25,18 @@ modId = "minecraft"
 mandatory = true
 versionRange = "[1.20,)"
 ordering = "NONE"
-side = "CLIENT"
+side = "BOTH"
 
 [[dependencies.pufferfish_unofficial_additions]]
 modId = "puffish_skills"
 mandatory = true
-versionRange = "[0.10,)"
+versionRange = "[0.11.2,)"
 ordering = "NONE"
-side = "CLIENT"
+side = "BOTH"
 
 [[dependencies.pufferfish_unofficial_additions]]
 modId = "irons_spellbooks"
 mandatory = false
 versionRange = "[1.19.2-2,)"
 ordering = "AFTER"
-side = "CLIENT"
+side = "BOTH"

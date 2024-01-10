@@ -14,8 +14,8 @@ import net.puffish.skillsmod.api.experience.calculation.condition.ItemNbtConditi
 import net.puffish.skillsmod.api.experience.calculation.condition.ItemTagCondition;
 import net.puffish.skillsmod.api.experience.calculation.parameter.ParameterFactory;
 import net.puffish.skillsmod.api.json.JsonObjectWrapper;
+import net.puffish.skillsmod.api.utils.Failure;
 import net.puffish.skillsmod.api.utils.Result;
-import net.puffish.skillsmod.api.utils.failure.Failure;
 import net.puffish.skillsmod.experience.calculation.CalculationManager;
 
 import java.util.Map;

@@ -5,9 +5,8 @@ import net.puffish.skillsmod.api.experience.calculation.condition.Condition;
 import net.puffish.skillsmod.api.experience.calculation.condition.ConditionFactory;
 import net.puffish.skillsmod.api.json.JsonElementWrapper;
 import net.puffish.skillsmod.api.json.JsonObjectWrapper;
+import net.puffish.skillsmod.api.utils.Failure;
 import net.puffish.skillsmod.api.utils.Result;
-import net.puffish.skillsmod.api.utils.failure.Failure;
-import net.puffish.skillsmod.api.utils.failure.ManyFailures;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -30,7 +29,7 @@ public final class StringCondition implements Condition<String> {
     public static Result<StringCondition, Failure> parse(final JsonObjectWrapper rootObject) {
         ArrayList<Failure> failures = new ArrayList<>();
         Optional<String> optValue = rootObject.getString("value").ifFailure(failures::add).getSuccess();
-        return failures.isEmpty() ? Result.success(new StringCondition(optValue.orElseThrow())) : Result.failure(ManyFailures.ofList(failures));
+        return failures.isEmpty() ? Result.success(new StringCondition(optValue.orElseThrow())) : Result.failure(Failure.fromMany(failures));
     }
 
     public boolean test(final String string) {
