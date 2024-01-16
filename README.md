@@ -113,19 +113,33 @@ Can be used to increase the amount of harvested items
 - `addition` of `1` means one additional crop (not seed)
 - The base value is the initial harvested amount
 
-## Iron's Spells 'n Spellbooks
-### Experience Sources
+# Iron's Spells 'n Spellbooks
+## Experience Sources
 Added an experience source for casting spells
 
-Parameters:
-- `level` / `min_level` / `max_level` belong to the spell being cast
-- `rarity` is the ordinal of the rarity (0 is COMMON and 4 is LEGENDARY)
-- `mana_cost` is the mana cost for the spell at that level
+**Note**: The experience source will trigger for each spell tick, meaning for continous spells it can happen multiple times (see the `expected_ticks` parameter)
 
-Conditions:
-- Item is the item in hand when the spell was initialized
+**Parameters**:
+- `level` / `min_level` / `max_level` belong to the spell being cast
+- `min_level_rarity` is the min. level for the rarity (could be 4 instead of 1 if you're using a rare spell)
+- `rarity` is the ordinal of the rarity (0 is COMMON and 4 is LEGENDARY)
+- `mana_cost` is the mana cost for the spell at that level (if it consumes mana)
+- `mana_cost_per_second` is only set for continuous spells (and if it consumes mana)
+- `cast_duration` (in seconds) is for continuous spells
+- `cast_charge_time` (in seconds) is for long spells (the charge-up time)
+- `cooldown` (in seconds)
+- `expected_ticks` will be 1 for instant and long type spells - for continous it's the amount of spell ticks if the whole duration is used
+
+**Conditions**:
+- `item` / `item_nbt` / `item_tag` is the item in hand when the spell was being casted
 - `school_type` is the school type of the spell (link for all ids at the bottom)
+  - `data` entry is `value`
 - `spell_id` is the spell being cast (link for all ids at the bottom)
+  - `data` entry is `value`
+- `cast_type`: INSTANT | LONG | CONTINUOUS
+  - `data` entry is `value`
+- `spell_rarity_name`: COMMON | UNCOMMON | RARE | EPIC | LEGENDARY
+  - `data` entry is `value`
 
 Example:
 ```json
@@ -189,7 +203,50 @@ Example:
 }
 ```
 
-### Rewards
+```json
+{
+  "type": "pufferfish_unofficial_additions:spell_casting",
+  "data": {
+    "parameters": {
+      "level": {
+        "type": "level"
+      },
+      "rarity": {
+        "type": "rarity"
+      },
+      "mana_cost": {
+        "type": "mana_cost"
+      },
+      "mana_cost_per_second": {
+        "type": "mana_cost_per_second"
+      },
+      "ticks": {
+        "type": "expected_ticks"
+      }
+    },
+    "conditions": {
+      "multiple_ticks": {
+        "type": "cast_type",
+        "data": {
+          "value": "CONTINUOUS"
+        }
+      }
+    },
+    "experience": [
+      {
+        "condition": "multiple_ticks",
+        "expression": "(rarity + level + (mana_cost_per_second / 10)) / 3"
+      },
+      {
+        "condition": "!multiple_ticks",
+        "expression": "rarity + level + (mana_cost / 10)"
+      }
+    ]
+  }
+}
+```
+
+## Rewards
 Added attributes to increase (or lower) spell levels
 - General attribute (meaning all spells) (`pufferfish_unofficial_additions:spell_general`)
 - Attribute for each school type (`pufferfish_unofficial_additions:spell_school_<...>`)
@@ -325,8 +382,8 @@ Example:
 }
 ```
 
-### School Types
+## School Types
 See https://github.com/iron431/Irons-Spells-n-Spellbooks/blob/1.19.2/src/main/java/io/redspace/ironsspellbooks/api/registry/SchoolRegistry.java
 
-### Spell Types
+## Spell Types
 See https://github.com/iron431/Irons-Spells-n-Spellbooks/blob/1.19.2/src/main/java/io/redspace/ironsspellbooks/api/registry/SpellRegistry.java
