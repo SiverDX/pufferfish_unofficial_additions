@@ -86,11 +86,13 @@ dependencies {
     implementation fg.deobf("curse.maven:puffish-skills-835091:4838217") // 1.19.2 - 0.10.0
 
     /* --- Other --- */
-    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:5003520") // 1.19.2 - 2.2.0
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:5141333") // 1.19.2 - 3.0.0
     /* irons_spellbooks */ implementation fg.deobf("curse.maven:playeranimator-658587:4418149") // 1.19.2 - 1.0.2
     /* irons_spellbooks */ implementation fg.deobf("curse.maven:caelus-308989:3929284") // 1.19.2 - 3.0.0.6
     /* irons_spellbooks */ implementation fg.deobf("curse.maven:geckolib-388172:4407241") // 1.19.2 - 3.1.40
     /* irons_spellbooks */ implementation fg.deobf("curse.maven:curios-309927:4985476") // 1.19.2 - 5.1.4.4
+
+    implementation fg.deobf("curse.maven:harvest-with-ease-602171:5030321") // 1.19.2 - 8.0.1.0
 
     /* --- For Mixin --- */
     compileOnly fg.deobf("curse.maven:aquaculture-60028:4074684") // 1.19.2 - 2.4.8

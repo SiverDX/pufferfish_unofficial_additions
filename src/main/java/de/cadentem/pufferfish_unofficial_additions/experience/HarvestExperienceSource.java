@@ -18,15 +18,16 @@ import net.puffish.skillsmod.api.utils.Result;
 import net.puffish.skillsmod.api.utils.failure.Failure;
 import net.puffish.skillsmod.experience.calculation.CalculationManager;
 
+import java.util.List;
 import java.util.Map;
 
 public class HarvestExperienceSource implements ExperienceSource {
     public static final ResourceLocation ID = new ResourceLocation(PUA.MODID, "harvest_crops");
 
     private static final Map<String, ConditionFactory<Context>> CONDITIONS = Map.ofEntries(
-            Map.entry("block", BlockCondition.factory().map(c -> c.map(Context::blockState))),
-            Map.entry("block_state", BlockStateCondition.factory().map(c -> c.map(Context::blockState))),
-            Map.entry("block_tag", BlockTagCondition.factory().map(c -> c.map(Context::blockState))),
+            Map.entry("block", BlockCondition.factory().map(c -> c.map(Context::state))),
+            Map.entry("block_state", BlockStateCondition.factory().map(c -> c.map(Context::state))),
+            Map.entry("block_tag", BlockTagCondition.factory().map(c -> c.map(Context::state))),
             Map.entry("tool", ItemCondition.factory().map(c -> c.map(Context::tool))),
             Map.entry("tool_nbt", ItemNbtCondition.factory().map(c -> c.map(Context::tool))),
             Map.entry("tool_tag", ItemTagCondition.factory().map(c -> c.map(Context::tool)))
@@ -51,20 +52,20 @@ public class HarvestExperienceSource implements ExperienceSource {
         return CalculationManager.create(rootObject, CONDITIONS, PARAMETERS, context).mapSuccess(HarvestExperienceSource::new);
     }
 
-    public int getValue(final ServerPlayer player, final BlockState blockState, final ItemStack tool, final ObjectArrayList<ItemStack> generatedLoot) {
+    public int getValue(final ServerPlayer player, final BlockState blockState, final ItemStack tool, final List<ItemStack> generatedLoot) {
         return this.manager.getValue(new Context(player, blockState, tool, generatedLoot));
     }
 
     @Override
-    public void dispose(MinecraftServer minecraftServer) { /* Nothing to do */ }
+    public void dispose(final MinecraftServer server) { /* Nothing to do */ }
 
-    private record Context(ServerPlayer player, BlockState blockState, ItemStack tool, ObjectArrayList<ItemStack> generatedLoot) {
+    private record Context(ServerPlayer player, BlockState state, ItemStack tool, List<ItemStack> loot) {
         public double droppedSeeds() {
-            return generatedLoot.stream().filter(item -> item.is(Tags.Items.SEEDS)).mapToInt(ItemStack::getCount).sum();
+            return loot.stream().filter(item -> item.is(Tags.Items.SEEDS)).mapToInt(ItemStack::getCount).sum();
         }
 
         public double droppedCrops() {
-            return generatedLoot.stream().filter(item -> item.is(Tags.Items.CROPS)).mapToInt(ItemStack::getCount).sum();
+            return loot.stream().filter(item -> item.is(Tags.Items.CROPS)).mapToInt(ItemStack::getCount).sum();
         }
     }
 }
