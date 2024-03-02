@@ -4,9 +4,11 @@ import com.mojang.logging.LogUtils;
 import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.experience.HarvestExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks.SpellCastingExperience;
+import de.cadentem.pufferfish_unofficial_additions.harvestwithease.ModEvents;
 import de.cadentem.pufferfish_unofficial_additions.irons_spellbooks.ISAttributes;
 import de.cadentem.pufferfish_unofficial_additions.registry.PUAAttributes;
 import de.cadentem.pufferfish_unofficial_additions.registry.PUALootModifiers;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -31,6 +33,10 @@ public class PUA {
             ISAttributes.ATTRIBUTES.register(modEventBus);
             SpellCastingExperience.register();
             modEventBus.addListener(ISAttributes::setAttributes);
+        }
+
+        if (ModList.get().isLoaded("harvestwithease")) {
+            MinecraftForge.EVENT_BUS.addListener(ModEvents::handleHarvestEvent);
         }
     }
 }
