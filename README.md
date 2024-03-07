@@ -131,7 +131,8 @@ Added an experience source for casting spells
 - `expected_ticks` will be 1 for instant and long type spells - for continous it's the amount of spell ticks if the whole duration is used
 
 **Conditions**:
-- `item` / `item_nbt` / `item_tag` is the item in hand when the spell was being casted
+- `item` / `item_nbt` / `item_tag` is the main hand item when the spell is cast
+- `spellbook` / `spellbook_nbt` / `spellbook_tag` is the spellbook in the curios slot
 - `school_type` is the school type of the spell (link for all ids at the bottom)
   - `data` entry is `value`
 - `spell_id` is the spell being cast (link for all ids at the bottom)
