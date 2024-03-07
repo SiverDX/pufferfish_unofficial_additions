@@ -13,6 +13,8 @@ public class PUALanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        add("ui." + PUA.MODID + ".cast_error_no_spell_level", "You do not possess the knowledge required to cast this spell");
+
         add("attribute." + PUA.MODID + ".fishing_lure", "Fishing Lure");
         add("attribute." + PUA.MODID + ".fishing_lure.desc", "Modifies the fishing lure level of the player");
         add("attribute." + PUA.MODID + ".fishing_luck", "Fishing Luck");
