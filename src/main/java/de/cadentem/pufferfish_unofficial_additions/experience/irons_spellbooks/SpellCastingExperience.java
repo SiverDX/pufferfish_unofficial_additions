@@ -2,15 +2,13 @@ package de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks;
 
 import de.cadentem.pufferfish_unofficial_additions.PUA;
 import de.cadentem.pufferfish_unofficial_additions.conditions.StringCondition;
-import io.redspace.ironsspellbooks.api.item.IScroll;
-import io.redspace.ironsspellbooks.api.item.ISpellbook;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
+import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.puffish.skillsmod.api.SkillsAPI;
@@ -32,9 +30,12 @@ public class SpellCastingExperience implements ExperienceSource {
     public static final ResourceLocation ID = new ResourceLocation(PUA.MODID, "spell_casting");
 
     private static final Map<String, ConditionFactory<SpellCastingExperience.Context>> CONDITIONS = Map.ofEntries(
-            Map.entry("item", ItemCondition.factory().map(c -> c.map(SpellCastingExperience.Context::castStack))),
-            Map.entry("item_nbt", ItemNbtCondition.factory().map(c -> c.map(SpellCastingExperience.Context::castStack))),
-            Map.entry("item_tag", ItemTagCondition.factory().map(c -> c.map(SpellCastingExperience.Context::castStack))),
+            Map.entry("item", ItemCondition.factory().map(c -> c.map(SpellCastingExperience.Context::mainHand))),
+            Map.entry("item_nbt", ItemNbtCondition.factory().map(c -> c.map(SpellCastingExperience.Context::mainHand))),
+            Map.entry("item_tag", ItemTagCondition.factory().map(c -> c.map(SpellCastingExperience.Context::mainHand))),
+            Map.entry("spellbook", ItemCondition.factory().map(c -> c.map(SpellCastingExperience.Context::spellbook))),
+            Map.entry("spellbook_nbt", ItemNbtCondition.factory().map(c -> c.map(SpellCastingExperience.Context::spellbook))),
+            Map.entry("spellbook_tag", ItemTagCondition.factory().map(c -> c.map(SpellCastingExperience.Context::spellbook))),
             Map.entry("school_type", StringCondition.factory().map(c -> c.map(SpellCastingExperience.Context::schoolType))),
             Map.entry("spell_id", StringCondition.factory().map(c -> c.map(SpellCastingExperience.Context::spellId))),
             Map.entry("cast_type", StringCondition.factory().map(c -> c.map(SpellCastingExperience.Context::castType))),
@@ -65,16 +66,16 @@ public class SpellCastingExperience implements ExperienceSource {
         SkillsAPI.registerExperienceSourceWithData(ID, (json, context) -> json.getAsObject().andThen(rootObject -> create(rootObject, context)));
     }
 
-    private static Result<SpellCastingExperience, Failure> create(final JsonObjectWrapper rootObject, final ConfigContext context) {
-        return CalculationManager.create(rootObject, CONDITIONS, PARAMETERS, context).mapSuccess(SpellCastingExperience::new);
+    private static Result<SpellCastingExperience, Failure> create(final JsonObjectWrapper root, final ConfigContext context) {
+        return CalculationManager.create(root, CONDITIONS, PARAMETERS, context).mapSuccess(SpellCastingExperience::new);
     }
 
     public int getValue(final ServerPlayer caster, final SchoolType schoolType, final String spellId, int level, final CastSource castSource) {
-        ItemStack castStack = caster.getMainHandItem();
-        ItemStack offhandStack = caster.getOffhandItem();
+        ItemStack mainHand = caster.getMainHandItem();
+        ItemStack spellbook = Utils.getPlayerSpellbookStack(caster);
 
-        if (!isSpellItem(castStack) && isSpellItem(offhandStack)) {
-            castStack = offhandStack;
+        if (spellbook == null) {
+            spellbook = ItemStack.EMPTY;
         }
 
         AbstractSpell spell = SpellRegistry.getSpell(spellId);
@@ -99,12 +100,13 @@ public class SpellCastingExperience implements ExperienceSource {
         double cooldown = MagicManager.getEffectiveSpellCooldown(spell, caster, castSource) / 20d;
         int expectedTicks = spell.getCastType() == CastType.CONTINUOUS ? (castDurationTicks / 10) : 1;
 
-        int experienceGained = this.manager.getValue(new Context(caster, castStack, school, spellId, spell.getCastType().name(), level, minLevel, minLevelRarity, maxLevel, spellRarity.name(), rarity, manaCost, manaCostPerSecond, castDuration, castChargeTime, cooldown, expectedTicks));
+        int experienceGained = this.manager.getValue(new Context(caster, mainHand, spellbook, school, spellId, spell.getCastType().name(), level, minLevel, minLevelRarity, maxLevel, spellRarity.name(), rarity, manaCost, manaCostPerSecond, castDuration, castChargeTime, cooldown, expectedTicks));
 
         PUA.LOG.debug("""
                 Context of [{}]:
                 - Caster: [{}]
-                - Item: [{}]
+                - Main Hand: [{}]
+                - Spellbook: [{}]
                 - School: [{}]
                 - Spell: [{}]
                 - Cast type: [{}]
@@ -117,18 +119,13 @@ public class SpellCastingExperience implements ExperienceSource {
                 - Cooldown: [{}]
                 - Expected ticks: [{}]
                 - Experience gained: [{}]
-                """, ID, caster, ForgeRegistries.ITEMS.getKey(castStack.getItem()), school, spellId, spell.getCastType().name(), level, minLevel, minLevelRarity, maxLevel, spellRarity.name(), rarity, manaCost, manaCostPerSecond, castDuration, castChargeTime, cooldown, expectedTicks, experienceGained);
+                """, ID, caster, ForgeRegistries.ITEMS.getKey(mainHand.getItem()), ForgeRegistries.ITEMS.getKey(spellbook.getItem()), school, spellId, spell.getCastType().name(), level, minLevel, minLevelRarity, maxLevel, spellRarity.name(), rarity, manaCost, manaCostPerSecond, castDuration, castChargeTime, cooldown, expectedTicks, experienceGained);
 
         return experienceGained;
     }
 
-    private boolean isSpellItem(final ItemStack itemStack) {
-        Item item = itemStack.getItem();
-        return item instanceof ISpellbook || item instanceof IScroll;
-    }
-
     @Override
-    public void dispose(final MinecraftServer minecraftServer) { /* Nothing to do */ }
+    public void dispose(final MinecraftServer server) { /* Nothing to do */ }
 
-    private record Context(ServerPlayer caster, ItemStack castStack, String schoolType, String spellId, String castType, double level, double minLevel, double minLevelRarity, double maxLevel, String rarityName, double rarity, double manaCost, double manaCostPerSecond, double castDuration, double castChargeTime, double cooldown, double expectedTicks) { }
+    private record Context(ServerPlayer caster, ItemStack mainHand, ItemStack spellbook, String schoolType, String spellId, String castType, double level, double minLevel, double minLevelRarity, double maxLevel, String rarityName, double rarity, double manaCost, double manaCostPerSecond, double castDuration, double castChargeTime, double cooldown, double expectedTicks) { }
 }
