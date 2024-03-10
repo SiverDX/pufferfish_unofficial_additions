@@ -1,7 +1,6 @@
 package de.cadentem.pufferfish_unofficial_additions.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import de.cadentem.pufferfish_unofficial_additions.experience.HarvestExperienceSource;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,10 +16,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = LootTable.class, priority = 1500)
+@Mixin(value = LootTable.class, priority = /* Temporarily due to Majrusz Library auto-cancelling */ 750)
 public class MixinLootTable {
-    @Inject(method = "getRandomItems(Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", at = @At("RETURN"))
-    private void pufferfish_unofficial_additions$applyExperienceSource(final LootContext context, final CallbackInfoReturnable<ObjectArrayList<ItemStack>> callback, @Local final ObjectArrayList<ItemStack> generatedLoot) {
+    @Inject(method = "getRandomItems(Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/ForgeHooks;modifyLoot(Lnet/minecraft/resources/ResourceLocation;Lit/unimi/dsi/fastutil/objects/ObjectArrayList;Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", shift = At.Shift.BY, by = 2, remap = false))
+    private void pufferfish_unofficial_additions$applyExperienceSource(final LootContext context, final CallbackInfoReturnable<ObjectArrayList<ItemStack>> callback, @Local final ObjectArrayList<ItemStack> loot) {
         if (!context.hasParam(LootContextParams.BLOCK_STATE) || !context.hasParam(LootContextParams.THIS_ENTITY)) {
             return;
         }
@@ -37,7 +36,7 @@ public class MixinLootTable {
 
         if (entity instanceof ServerPlayer serverPlayer) {
             SkillsMod.getInstance().visitExperienceSources(serverPlayer, experienceSource ->
-                    experienceSource instanceof HarvestExperienceSource harvestExperienceSource ? harvestExperienceSource.getValue(serverPlayer, state, tool, generatedLoot) : 0
+                    experienceSource instanceof HarvestExperienceSource harvestExperienceSource ? harvestExperienceSource.getValue(serverPlayer, state, tool, loot) : 0
             );
         }
     }

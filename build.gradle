@@ -83,8 +83,6 @@ dependencies {
     /* irons_spellbooks */ compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}:api"))
     /* irons_spellbooks */ runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}"))
 
-    implementation fg.deobf("curse.maven:harvest-with-ease-602171:5030334") // 1.20.1 - 8.0.1.0
-
     /* --- For Mixin --- */
     implementation fg.deobf("curse.maven:aquaculture-60028:4608454") // 1.20.1 - 2.5.0
 
