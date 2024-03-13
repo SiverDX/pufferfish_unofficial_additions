@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ApplyMixinPlugin implements IMixinConfigPlugin {
+    private final static String PREFIX = ApplyMixinPlugin.class.getPackageName();
+
     @Override
     public void onLoad(final String mixinPackage) { /* Nothing to do */ }
 
@@ -17,19 +19,12 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
-        if (mixinClassName.equals("de.cadentem.pufferfish_unofficial_additions.mixin.MixinFishingHook")) {
-            // Not needed with Apotheosis present
-            return LoadingModList.get().getModFileById("apotheosis") == null;
-        }
+        String modid = mixinClassName.replace(PREFIX, "");
+        modid = modid.replace("client.", "");
+        String[] elements = modid.split("\\.");
 
-        String modid = mixinClassName
-                .replace("de.cadentem.pufferfish_unofficial_additions.mixin.", "") // General package
-                .replaceAll("\\.?Mixin.*", "") // Mixin class name
-                .replaceAll("\\..*", ""); // Sub package
-
-        if (!modid.isBlank()) {
-            // `ModList.get()` is not available at this point in time
-            return LoadingModList.get().getModFileById(modid) != null;
+        if (elements.length == 2) {
+            return LoadingModList.get().getModFileById(elements[0]) != null;
         }
 
         return true;
