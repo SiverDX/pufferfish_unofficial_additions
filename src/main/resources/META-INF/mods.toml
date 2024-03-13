@@ -38,5 +38,5 @@ side = "BOTH"
 modId = "irons_spellbooks"
 mandatory = false
 versionRange = "[1.19.2-2,)"
-ordering = "AFTER"
+ordering = "NONE"
 side = "BOTH"

@@ -1,11 +1,9 @@
 package de.cadentem.pufferfish_unofficial_additions.events;
 
 import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceSource;
-import de.cadentem.pufferfish_unofficial_additions.registry.PUAAttributes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,10 +29,5 @@ public class ForgeEvents {
                 ));
             }
         }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void amplyLootingLevel(final LootingLevelEvent event) {
-        event.setLootingLevel(PUAAttributes.getIntValue(event.getEntity(), PUAAttributes.LOOTING.get(), event.getLootingLevel()));
     }
 }
