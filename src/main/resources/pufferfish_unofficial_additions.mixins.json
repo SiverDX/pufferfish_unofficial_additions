@@ -6,6 +6,8 @@
   "plugin": "de.cadentem.pufferfish_unofficial_additions.mixin.ApplyMixinPlugin",
   "refmap": "pufferfish_unofficial_additions.refmap.json",
   "mixins": [
+    "AttributeMapMixin",
+    "ItemStackMixin",
     "MixinLootTable",
     "MixinPowderSnowBlock",
     "irons_spellbooks.MixinAbstractSpell",
