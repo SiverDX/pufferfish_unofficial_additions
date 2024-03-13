@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(JsonParseUtils.class)
 public abstract class JsonParseUtilsMixin {
-    @ModifyArg(method = "lambda$parseAttribute$10", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Registry;getOptional(Lnet/minecraft/resources/ResourceLocation;)Ljava/util/Optional;"))
+    @ModifyArg(method = "lambda$parseAttribute$12", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Registry;getOptional(Lnet/minecraft/resources/ResourceLocation;)Ljava/util/Optional;"))
     private static ResourceLocation pufferfish_unofficial_additions$fixAttribute(final ResourceLocation location) {
         return Utils.fixAttribute(location);
     }
