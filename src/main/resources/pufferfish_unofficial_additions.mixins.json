@@ -8,7 +8,8 @@
   "mixins": [
     "MixinLootTable",
     "MixinPowderSnowBlock",
-    "irons_spellbooks.MixinAbstractSpell"
+    "irons_spellbooks.MixinAbstractSpell",
+    "puffish_skills.JsonParseUtilsMixin"
   ],
   "client": [],
   "injectors": {
