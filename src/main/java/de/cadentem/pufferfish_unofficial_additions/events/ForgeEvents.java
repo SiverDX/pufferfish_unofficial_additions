@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.puffish.skillsmod.SkillsMod;
 
-@Mod.EventBusSubscriber(value = Dist.DEDICATED_SERVER)
+@Mod.EventBusSubscriber(Dist.DEDICATED_SERVER)
 public class ForgeEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void grantFishingExperience(final ItemFishedEvent event) {
