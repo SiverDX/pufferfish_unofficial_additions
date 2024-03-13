@@ -4,6 +4,12 @@ Addon to https://www.curseforge.com/minecraft/mc-mods/puffish-skills
 Contains support for
 - https://www.curseforge.com/minecraft/mc-mods/irons-spells-n-spellbooks
 
+---
+
+Attributes have been moved to [Additional Attributes](https://www.curseforge.com/minecraft/mc-mods/additional-attributes)
+- This mod will try to update attributes applied to entities, item stacks and definitions for the skill tree to the `additional_attributes` mod
+  - The skill tree files themselves will not be updated, it will simply substitute the namespace when trying to load the attribute
+
 # Experience Source
 ## Harvesting Crops
 Hooks into the method which gets the items from the loot table
