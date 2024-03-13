@@ -23,7 +23,7 @@ side = "BOTH"
 [[dependencies.pufferfish_unofficial_additions]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.2,)"
+versionRange = "[1.19.2]"
 ordering = "NONE"
 side = "BOTH"
 
