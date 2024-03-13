@@ -98,21 +98,6 @@ Allows walking on powder snow
 }
 ```
 
-## Enchantment Attributes
-- Looting
-- Respiration
-- Fishing Lure
-- Fishing Luck
-
-The base value for these is the enchantment value which gets checked
-- Meaning there won't be any benefits using `multiply_base` / `multiply_total` if you don't have the enchantment
-- `addition` will be affected by `multiply_total`
-
-## Harvest Attribute
-Can be used to increase the amount of harvested items
-- `addition` of `1` means one additional crop (not seed)
-- The base value is the initial harvested amount
-
 # Iron's Spells 'n Spellbooks
 ## Experience Sources
 Added an experience source for casting spells
@@ -134,13 +119,13 @@ Added an experience source for casting spells
 - `item` / `item_nbt` / `item_tag` is the main hand item when the spell is cast
 - `spellbook` / `spellbook_nbt` / `spellbook_tag` is the spellbook in the curios slot
 - `school_type` is the school type of the spell (link for all ids at the bottom)
-  - `data` entry is `value`
+    - `data` entry is `value`
 - `spell_id` is the spell being cast (link for all ids at the bottom)
-  - `data` entry is `value`
+    - `data` entry is `value`
 - `cast_type`: INSTANT | LONG | CONTINUOUS
-  - `data` entry is `value`
+    - `data` entry is `value`
 - `spell_rarity_name`: COMMON | UNCOMMON | RARE | EPIC | LEGENDARY
-  - `data` entry is `value`
+    - `data` entry is `value`
 
 Example:
 ```json
@@ -246,145 +231,3 @@ Example:
   }
 }
 ```
-
-## Rewards
-Added attributes to increase (or lower) spell levels
-- General attribute (meaning all spells) (`pufferfish_unofficial_additions:spell_general`)
-- Attribute for each school type (`pufferfish_unofficial_additions:spell_school_<...>`)
-- Attribute for each spell type (`pufferfish_unofficial_additions:spell_type_<...>`)
-
-How it works:
-- The base value of these attributes is the level of the spell being used - meaning `modify_base` will always have an effect
-- Spells with a maximum level of `1` will not be affected, since there usually is no reason to do so
-- The three attribute types function as one - their modifiers are gathered together before calculation
-- There is no rounding - meaning a spell level of `1.75` will result in `1`
-
-Examples:
-```json
-{
-  "spell_mastery_keystone": {
-    "title": "Spell Mastery",
-    "description": "Increases the level of your spells by 40%",
-    "frame": {
-      "type": "advancement",
-      "data": {
-        "frame": "challenge"
-      }
-    },
-    "icon": {
-      "type": "effect",
-      "data": {
-        "effect": "minecraft:glowing"
-      }
-    },
-    "rewards": [
-      {
-        "type": "puffish_skills:attribute",
-        "data": {
-          "attribute": "pufferfish_unofficial_additions:spell_general",
-          "value": 0.4,
-          "operation": "multiply_total"
-        }
-      }
-    ]
-  },
-  "blood_slash_major": {
-    "title": "Blood Slash Mastery",
-    "description": "Increases the level of [Blood Slash] by 1",
-    "frame": {
-      "type": "advancement",
-      "data": {
-        "frame": "challenge"
-      }
-    },
-    "icon": {
-      "type": "item",
-      "data": {
-        "item": "irons_spellbooks:scroll"
-      }
-    },
-    "rewards": [
-      {
-        "type": "puffish_skills:attribute",
-        "data": {
-          "attribute": "pufferfish_unofficial_additions:spell_type_blood_slash",
-          "value": 1,
-          "operation": "addition"
-        }
-      }
-    ]
-  },
-  "fire_school_mastery": {
-    "title": "Fire School Mastery",
-    "description": "Increases the level of [Fire] spells by 1",
-    "frame": {
-      "type": "advancement",
-      "data": {
-        "frame": "challenge"
-      }
-    },
-    "icon": {
-      "type": "item",
-      "data": {
-        "item": "irons_spellbooks:fire_rune"
-      }
-    },
-    "rewards": [
-      {
-        "type": "puffish_skills:attribute",
-        "data": {
-          "attribute": "pufferfish_unofficial_additions:spell_school_fire",
-          "value": 1,
-          "operation": "addition"
-        }
-      }
-    ]
-  }
-}
-```
-
----
-
-Added an attribute to potentially not use up a scroll
-- `pufferfish_unofficial_additions:keep_scroll`
-- Value between `0` (`0%` chance) and 1 (`100%` chance)
-- Using `multiply_base` will have no effect since the base value is `0`
-- Using `multiply_total` without prior `addition` will also have no effect
-
-Example:
-```json
-{
-  "magic_root": {
-    "title": "Experienced Magician",
-    "description": "50% Chance to keep your Scroll after casting",
-    "frame": {
-      "type": "advancement",
-      "data": {
-        "frame": "challenge"
-      }
-    },
-    "icon": {
-      "type": "item",
-      "data": {
-        "item": "irons_spellbooks:scroll"
-      }
-    },
-    "rewards": [
-      {
-        "type": "puffish_skills:attribute",
-        "data": {
-          "attribute": "pufferfish_unofficial_additions:keep_scroll",
-          "value": 0.5,
-          "operation": "addition"
-        }
-      }
-    ]
-  }
-}
-```
-
-## School Types
-See https://github.com/iron431/Irons-Spells-n-Spellbooks/blob/1.19.2/src/main/java/io/redspace/ironsspellbooks/api/registry/SchoolRegistry.java
-
-## Spell Types
-See https://github.com/iron431/Irons-Spells-n-Spellbooks/blob/1.19.2/src/main/java/io/redspace/ironsspellbooks/api/registry/SpellRegistry.java

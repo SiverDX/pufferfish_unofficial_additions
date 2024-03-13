@@ -6,21 +6,11 @@
   "plugin": "de.cadentem.pufferfish_unofficial_additions.mixin.ApplyMixinPlugin",
   "refmap": "pufferfish_unofficial_additions.refmap.json",
   "mixins": [
-    "MixinFishingHook",
-    "MixinFishingRod",
-    "MixinLivingEntity",
     "MixinLootTable",
     "MixinPowderSnowBlock",
-    "aquaculture.MixinAquaFishingBobberEntity",
-    "aquaculture.MixinAquaFishingRodItem",
-    "irons_spellbooks.MixinAbstractSpell",
-    "irons_spellbooks.MixinScroll",
-    "irons_spellbooks.MixinSchoolRegistry",
-    "irons_spellbooks.MixinSpellRegistry"
+    "irons_spellbooks.MixinAbstractSpell"
   ],
-  "client": [
-    "puffish_skills.MixinForgeClientMain"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
