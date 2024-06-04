@@ -1,38 +1,41 @@
 package de.cadentem.pufferfish_unofficial_additions.conditions;
 
-import net.puffish.skillsmod.api.config.ConfigContext;
-import net.puffish.skillsmod.api.experience.calculation.condition.Condition;
-import net.puffish.skillsmod.api.experience.calculation.condition.ConditionFactory;
-import net.puffish.skillsmod.api.json.JsonElementWrapper;
-import net.puffish.skillsmod.api.json.JsonObjectWrapper;
-import net.puffish.skillsmod.api.utils.Failure;
-import net.puffish.skillsmod.api.utils.Result;
+import de.cadentem.pufferfish_unofficial_additions.prototypes.CustomPrototypes;
+import net.puffish.skillsmod.SkillsMod;
+import net.puffish.skillsmod.api.calculation.operation.Operation;
+import net.puffish.skillsmod.api.calculation.operation.OperationConfigContext;
+import net.puffish.skillsmod.api.calculation.prototype.BuiltinPrototypes;
+import net.puffish.skillsmod.api.json.JsonElement;
+import net.puffish.skillsmod.api.json.JsonObject;
+import net.puffish.skillsmod.api.util.Problem;
+import net.puffish.skillsmod.api.util.Result;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-public final class StringCondition implements Condition<String> {
+public final class StringCondition implements Operation<String, Boolean> {
     private final String string;
 
     private StringCondition(final String string) {
         this.string = string;
     }
 
-    public static ConditionFactory<String> factory() {
-        return ConditionFactory.withData(StringCondition::parse);
+    public static void register() {
+        CustomPrototypes.STRING.registerOperation(SkillsMod.createIdentifier("test"), BuiltinPrototypes.BOOLEAN, StringCondition::parse);
     }
 
-    public static Result<StringCondition, Failure> parse(final JsonElementWrapper rootElement, final ConfigContext context) {
-        return rootElement.getAsObject().andThen(StringCondition::parse);
+    public static Result<StringCondition, Problem> parse(final OperationConfigContext context) {
+        return context.getData().andThen(JsonElement::getAsObject).andThen(StringCondition::parse);
     }
 
-    public static Result<StringCondition, Failure> parse(final JsonObjectWrapper rootObject) {
-        ArrayList<Failure> failures = new ArrayList<>();
-        Optional<String> optValue = rootObject.getString("value").ifFailure(failures::add).getSuccess();
-        return failures.isEmpty() ? Result.success(new StringCondition(optValue.orElseThrow())) : Result.failure(Failure.fromMany(failures));
+    public static Result<StringCondition, Problem> parse(final JsonObject rootObject) {
+        ArrayList<Problem> problems = new ArrayList<>();
+        Optional<String> optional = rootObject.getString("value").ifFailure(problems::add).getSuccess();
+        return problems.isEmpty() ? Result.success(new StringCondition(optional.orElseThrow())) : Result.failure(Problem.combine(problems));
     }
 
-    public boolean test(final String string) {
-        return this.string.equals(string);
+    @Override
+    public Optional<Boolean> apply(final String string) {
+        return Optional.of(this.string.equals(string));
     }
 }

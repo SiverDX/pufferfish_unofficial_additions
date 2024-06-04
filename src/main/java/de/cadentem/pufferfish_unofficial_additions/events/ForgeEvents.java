@@ -7,7 +7,7 @@ import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.puffish.skillsmod.SkillsMod;
+import net.puffish.skillsmod.api.SkillsAPI;
 
 @Mod.EventBusSubscriber
 public class ForgeEvents {
@@ -19,13 +19,9 @@ public class ForgeEvents {
 
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             if (event.getDrops().isEmpty()) {
-               SkillsMod.getInstance().visitExperienceSources(serverPlayer, experienceSource ->
-                        experienceSource instanceof FishingExperienceSource fishingExperienceSource ? fishingExperienceSource.getValue(serverPlayer, serverPlayer.getMainHandItem(), ItemStack.EMPTY) : 0
-                );
+               SkillsAPI.updateExperienceSources(serverPlayer, FishingExperienceSource.class, source -> source.getValue(serverPlayer, serverPlayer.getMainHandItem(), ItemStack.EMPTY));
             } else {
-                event.getDrops().forEach(drop -> SkillsMod.getInstance().visitExperienceSources(serverPlayer, experienceSource ->
-                        experienceSource instanceof FishingExperienceSource fishingExperienceSource ? fishingExperienceSource.getValue(serverPlayer, serverPlayer.getMainHandItem(), drop) : 0
-                ));
+                event.getDrops().forEach(drop -> SkillsAPI.updateExperienceSources(serverPlayer, FishingExperienceSource.class, source -> source.getValue(serverPlayer, serverPlayer.getMainHandItem(), drop)));
             }
         }
     }

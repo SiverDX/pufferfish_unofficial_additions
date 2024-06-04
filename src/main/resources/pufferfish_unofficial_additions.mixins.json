@@ -6,14 +6,12 @@
   "plugin": "de.cadentem.pufferfish_unofficial_additions.mixin.ApplyMixinPlugin",
   "refmap": "pufferfish_unofficial_additions.refmap.json",
   "mixins": [
-    "AttributeMapMixin",
-    "ItemStackMixin",
-    "MixinLootTable",
-    "MixinPowderSnowBlock",
-    "irons_spellbooks.MixinAbstractSpell",
-    "puffish_skills.JsonParseUtilsMixin"
+    "LootTableMixin",
+    "PowderSnowBlockMixin"
   ],
-  "client": [],
+  "client": [
+    "puffish_skills.ForgeClientMainMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
