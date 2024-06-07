@@ -172,7 +172,8 @@ times (see the `expected_ticks` parameter)
     - Contains the following sub-operations:
         - `min_level`: The minimum level of this type of spell (prototype is `number`)
         - `max_level`: The maximum level of this type of spell (prototype is `number`)
-        - `cast_type`: The way the spell is being cast (`INSTANT`, `LONG`, `CONTINUOUS`) (prototype is `number`)
+        - `cast_type`: The way the spell is being cast (`INSTANT`, `LONG`, `CONTINUOUS`) (prototype is custom)
+            - The value is defined with `value`
 - `level`: The level of the spell (incl. modifications through items etc.) (prototype is `number`)
 - `min_level_rarity`: The minimum level of the spell based on the rarity (prototype is `number`)
 - `rarity_name`: Name of the rarity (`COMMON`, `RARE`, `EPIC`, `LEGENDARY`) (prototype is custom)
