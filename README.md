@@ -288,3 +288,24 @@ Example:
   }
 }
 ```
+
+You can access the three sub-operations from the `spell` type like this:
+
+```json
+"multiple_ticks": {
+  "operations": [
+    {
+      "type": "spell"
+    },
+    {
+      "type": "cast_type"
+    },
+    {
+      "type": "puffish_skills:test",
+      "data": {
+        "value": "CONTINUOUS"
+      }
+    }
+  ]
+}
+```
