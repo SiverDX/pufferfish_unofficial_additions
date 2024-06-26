@@ -8,6 +8,7 @@ import de.cadentem.pufferfish_unofficial_additions.events.ISSEvents;
 import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.experience.HarvestExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks.SpellCastingExperienceSource;
+import de.cadentem.pufferfish_unofficial_additions.rewards.EffectReward;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -24,6 +25,7 @@ public class PUA {
         StringCondition.register();
         HarvestExperienceSource.register();
         FishingExperienceSource.register();
+        EffectReward.register();
 
         if (ModList.get().isLoaded("irons_spellbooks")) {
             MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, ISSEvents::grantSpellExperience);
