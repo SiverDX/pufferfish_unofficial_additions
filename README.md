@@ -14,13 +14,10 @@ Attributes have been moved
 to [Additional Attributes](https://www.curseforge.com/minecraft/mc-mods/additional-attributes)
 
 # Experience Source
-
 ## Harvesting Crops
-
 Hooks into the method which gets the items from the loot table
 
 **Operations**:
-
 - `player`: The player harvesting the crops (prototype
   is [Player](https://puffish.net/skillsmod/docs/creators/configuration/calculations/prototypes#minecraft-player))
 - `block`: The block being harvested (prototype
@@ -76,11 +73,9 @@ Example:
 ```
 
 ## Fishing Experience
-
 Gets called per fished item
 
 **Operations**:
-
 - `player`: The player who is fishing (prototype
   is [Player](https://puffish.net/skillsmod/docs/creators/configuration/calculations/prototypes#minecraft-player))
 - `tool`: The tool being used (prototype
@@ -134,9 +129,53 @@ Example:
 ```
 
 # Rewards
+## Effect
+Apply effects (infinite duration):
+- Before removing the reward from the definition you'll have to reset the skills (or manually remove the effects yourself)
+
+```json
+{
+  "type": "pufferfish_unofficial_additions:effect",
+  "data": {
+    "effect": "minecraft:regeneration",
+    "amplifier": 0,
+    "type": "GRANT"
+  }
+}
+```
+
+Grant immunity up to a certain amplifier:
+
+```json
+{
+  "type": "pufferfish_unofficial_additions:effect",
+  "data": {
+    "effect": "minecraft:wither",
+    "amplifier": 1,
+    "type": "IMMUNE"
+  }
+}
+```
+
+Modify duration and / or amplifier:
+- Valid operations are `+`, `-`, `x` and `/`
+- If the duration reaches `0` due to modifications the effect will not be applied
+  - This element is optional
+- If the amplifier goes below `0` due to modifications the effect will not be applied
+
+```json
+{
+  "type": "pufferfish_unofficial_additions:effect",
+  "data": {
+    "effect": "minecraft:slowness",
+    "amplifier": -2,
+    "duration_modification": "/2.5",
+    "type": "MODIFY"
+  }
+}
+```
 
 ## Walkable Powder Snow
-
 Allows walking on powder snow
 
 ```json
@@ -149,16 +188,13 @@ Allows walking on powder snow
 ```
 
 # Iron's Spells 'n Spellbooks
-
 ## Experience Sources
-
 Added an experience source for casting spells
 
 **Note**: The experience source will trigger for each spell tick, meaning for continuous spells it can happen multiple
 times (see the `expected_ticks` parameter)
 
 **Operations**:
-
 - `player`: The caster (prototype
   is [Player](https://puffish.net/skillsmod/docs/creators/configuration/calculations/prototypes#minecraft-player))
 - `main_hand`: Item in main hand (prototype
