@@ -141,6 +141,7 @@ The data consists of:
   - `IMMUNE`: Effect applications equal or below the specified amplifier will not be applied
   - `MODIFY` Effects applications will be modified with the specified amplifier and duration modification
 - `duration_modification`: Only applicable to the type `MODIFY` in the format of `<operation><amount>` (e.g. `x1.25` -> multiply by `1.25`)
+  - Valid operations are `+`, `-`, `x` and `/` 
   - This element is optional (even for `MODIFY`)
 
 Apply effects (infinite duration):
