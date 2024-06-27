@@ -16,6 +16,7 @@ import net.puffish.skillsmod.api.reward.RewardDisposeContext;
 import net.puffish.skillsmod.api.reward.RewardUpdateContext;
 import net.puffish.skillsmod.api.util.Problem;
 import net.puffish.skillsmod.api.util.Result;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -54,7 +55,7 @@ public class EffectReward implements Reward {
 
         Optional<MobEffect> effect = rootObject.get("effect").andThen(BuiltinJson::parseEffect).ifFailure(problems::add).getSuccess();
         Optional<String> typeRaw = rootObject.getString("type").ifFailure(problems::add).getSuccess();
-        Optional<Integer> amplifier = rootObject.getInt("amplifier").ifFailure(problems::add).getSuccess();
+        Optional<Integer> amplifierOptional = rootObject.getInt("amplifierOptional").ifFailure(problems::add).getSuccess();
 
         if (typeRaw.isPresent()) {
             Type type = Type.get(typeRaw.get());
@@ -72,8 +73,16 @@ public class EffectReward implements Reward {
                 }
             }
 
-            if (problems.isEmpty()) {
-                return Result.success(new EffectReward(effect.orElseThrow(), type, durationModification, amplifier.orElseThrow()));
+            if (amplifierOptional.isPresent()) {
+                int amplifier = amplifierOptional.get();
+
+                if ((amplifier < 0 || amplifier > 255) && (type == Type.GRANT || type == Type.IMMUNE)) {
+                    problems.add(Problem.message("The amplifier has to be between 0 and 255"));
+                }
+
+                if (problems.isEmpty()) {
+                    return Result.success(new EffectReward(effect.orElseThrow(), type, durationModification, amplifier));
+                }
             }
         }
 
@@ -92,7 +101,7 @@ public class EffectReward implements Reward {
                 return;
             }
 
-            player.addEffect(new MobEffectInstance(data.effect, MobEffectInstance.INFINITE_DURATION, data.amplifier, false, /* No particles */ false));
+            addEffect(player, data);
         });
     }
 
@@ -160,7 +169,7 @@ public class EffectReward implements Reward {
             data.removeIf(this::matches);
 
             if (type == Type.GRANT) {
-                removeEffects(player);
+                removeEffect(player);
             }
         } else {
             int active = count;
@@ -183,34 +192,44 @@ public class EffectReward implements Reward {
             }
 
             if (type == Type.GRANT) {
-                player.addEffect(new MobEffectInstance(effect, MobEffectInstance.INFINITE_DURATION, amplifier, /* Show in GUI */ true, /* No particles */ false));
+                addEffect(player, new Data(effect, type, durationModification, amplifier));
             }
         }
     }
 
     @Override
     public void dispose(final RewardDisposeContext context) {
-        DATA.clear();
+        context.getServer().getPlayerList().getPlayers().forEach(player -> {
+            getData(player.getUUID()).removeIf(this::matches);
 
-        if (type == Type.GRANT) {
-            context.getServer().getPlayerList().getPlayers().forEach(this::removeEffects);
-        }
+            if (type == Type.GRANT) {
+                removeEffect(player);
+            }
+        });
     }
 
     private static List<Data> getData(final UUID uuid) {
         return DATA.computeIfAbsent(uuid, key -> new ArrayList<>());
     }
 
-    private void removeEffects(final ServerPlayer player) {
+    private void removeEffect(final ServerPlayer player) {
         MobEffectInstance instance = player.getEffect(effect);
 
-        if (instance != null && instance.isInfiniteDuration()) {
+        if (instance != null && instance.isInfiniteDuration() && matches(instance)) {
             player.removeEffect(effect);
         }
     }
 
+    private static void addEffect(final ServerPlayer player, final Data data) {
+        player.addEffect(new MobEffectInstance(data.effect, MobEffectInstance.INFINITE_DURATION, data.amplifier, false, /* No particles */ false));
+    }
+
     private boolean matches(final Data data) {
         return data.effect == effect && data.type == type && data.durationModification == durationModification && data.amplifier == amplifier;
+    }
+
+    private boolean matches(@NotNull final MobEffectInstance instance) {
+        return instance.getEffect() == effect && instance.getAmplifier() == amplifier;
     }
 
     public enum Type {

@@ -130,6 +130,19 @@ Example:
 
 # Rewards
 ## Effect
+The reward type is `pufferfish_unofficial_additions:effect`
+
+The data consists of:
+- `effect`: The effect in the format of `namespace:path` (e.g. `minecraft:regeneration`)
+- `amplifier`: The "level" of the effect
+  - For the types `GRANT` and `IMMUNE` this value has to be between `0` and `255`
+- `type`: The type of application
+  - `GRANT`: The effect will be applied and kept with infinite duration
+  - `IMMUNE`: Effect applications equal or below the specified amplifier will not be applied
+  - `MODIFY` Effects applications will be modified with the specified amplifier and duration modification
+- `duration_modification`: Only applicable to the type `MODIFY` in the format of `<operation><amount>` (e.g. `x1.25` -> multiply by `1.25`)
+  - This element is optional (even for `MODIFY`)
+
 Apply effects (infinite duration):
 - Before removing the reward from the definition you'll have to reset the skills (or manually remove the effects yourself)
 
@@ -157,10 +170,8 @@ Grant immunity up to a certain amplifier:
 }
 ```
 
-Modify duration and / or amplifier:
-- Valid operations are `+`, `-`, `x` and `/`
+Modify duration and / or amplifier of incoming effects:
 - If the duration reaches `0` due to modifications the effect will not be applied
-  - This element is optional
 - If the amplifier goes below `0` due to modifications the effect will not be applied
 
 ```json
