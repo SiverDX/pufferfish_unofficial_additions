@@ -55,7 +55,7 @@ public class EffectReward implements Reward {
 
         Optional<MobEffect> effect = rootObject.get("effect").andThen(BuiltinJson::parseEffect).ifFailure(problems::add).getSuccess();
         Optional<String> typeRaw = rootObject.getString("type").ifFailure(problems::add).getSuccess();
-        Optional<Integer> amplifierOptional = rootObject.getInt("amplifierOptional").ifFailure(problems::add).getSuccess();
+        Optional<Integer> amplifierOptional = rootObject.getInt("amplifier").ifFailure(problems::add).getSuccess();
 
         if (typeRaw.isPresent()) {
             Type type = Type.get(typeRaw.get());
