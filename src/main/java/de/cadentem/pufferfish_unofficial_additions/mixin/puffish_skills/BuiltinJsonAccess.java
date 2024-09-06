@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@Mixin(BuiltinJson.class)
+@Mixin(value = BuiltinJson.class, remap = false)
 public interface BuiltinJsonAccess {
     @Invoker("parseSomethingOrSomethingTag")
     static <T> Result<HolderSet<T>, Problem> pufferfish_unofficial_additions$parseSomethingOrSomethingTag(final JsonElement element, final Registry<T> registry, final Supplier<String> expected, final Function<ResourceLocation, String> unknown) {

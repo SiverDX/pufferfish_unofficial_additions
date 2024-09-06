@@ -1,6 +1,5 @@
-package de.cadentem.pufferfish_unofficial_additions.events;
+package de.cadentem.pufferfish_unofficial_additions.compat.irons_spellbooks;
 
-import de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks.SpellCastingExperienceSource;
 import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.puffish.skillsmod.api.SkillsAPI;
