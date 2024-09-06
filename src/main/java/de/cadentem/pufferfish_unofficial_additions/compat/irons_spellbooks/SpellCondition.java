@@ -1,7 +1,6 @@
-package de.cadentem.pufferfish_unofficial_additions.conditions.irons_spellbooks;
+package de.cadentem.pufferfish_unofficial_additions.compat.irons_spellbooks;
 
 import de.cadentem.pufferfish_unofficial_additions.misc.ExtendedJson;
-import de.cadentem.pufferfish_unofficial_additions.prototypes.CustomPrototypes;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -25,7 +24,7 @@ public class SpellCondition implements Operation<AbstractSpell, Boolean> {
     }
 
     public static void register() {
-        CustomPrototypes.SPELL.registerOperation(SkillsMod.createIdentifier("test"), BuiltinPrototypes.BOOLEAN, SpellCondition::parse);
+        ISPrototypes.SPELL.registerOperation(SkillsMod.createIdentifier("test"), BuiltinPrototypes.BOOLEAN, SpellCondition::parse);
     }
 
     public static Result<SpellCondition, Problem> parse(final OperationConfigContext context) {

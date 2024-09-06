@@ -1,7 +1,6 @@
-package de.cadentem.pufferfish_unofficial_additions.conditions.irons_spellbooks;
+package de.cadentem.pufferfish_unofficial_additions.compat.irons_spellbooks;
 
 import de.cadentem.pufferfish_unofficial_additions.misc.ExtendedJson;
-import de.cadentem.pufferfish_unofficial_additions.prototypes.CustomPrototypes;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -25,7 +24,7 @@ public class SchoolCondition implements Operation<SchoolType, Boolean> {
     }
 
     public static void register() {
-        CustomPrototypes.SCHOOL.registerOperation(SkillsMod.createIdentifier("test"), BuiltinPrototypes.BOOLEAN, SchoolCondition::parse);
+        ISPrototypes.SCHOOL.registerOperation(SkillsMod.createIdentifier("test"), BuiltinPrototypes.BOOLEAN, SchoolCondition::parse);
     }
 
     public static Result<SchoolCondition, Problem> parse(final OperationConfigContext context) {

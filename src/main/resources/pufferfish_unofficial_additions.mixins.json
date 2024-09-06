@@ -10,11 +10,5 @@
     "LootTableMixin",
     "MobEffectInstanceMixin",
     "PowderSnowBlockMixin"
-  ],
-  "client": [
-    "puffish_skills.ForgeClientMainMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+  ]
 }

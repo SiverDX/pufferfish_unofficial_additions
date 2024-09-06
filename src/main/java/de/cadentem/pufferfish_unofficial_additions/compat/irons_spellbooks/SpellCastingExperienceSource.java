@@ -1,4 +1,4 @@
-package de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks;
+package de.cadentem.pufferfish_unofficial_additions.compat.irons_spellbooks;
 
 import de.cadentem.pufferfish_unofficial_additions.PUA;
 import de.cadentem.pufferfish_unofficial_additions.prototypes.CustomPrototypes;
@@ -29,8 +29,8 @@ public class SpellCastingExperienceSource implements ExperienceSource {
         PROTOTYPE.registerOperation(PUA.location("player"), BuiltinPrototypes.PLAYER, OperationFactory.create(Data::caster));
         PROTOTYPE.registerOperation(PUA.location("main_hand"), BuiltinPrototypes.ITEM_STACK, OperationFactory.create(Data::mainHand));
         PROTOTYPE.registerOperation(PUA.location("spellbook"), BuiltinPrototypes.ITEM_STACK, OperationFactory.create(Data::spellbook));
-        PROTOTYPE.registerOperation(PUA.location("school"), CustomPrototypes.SCHOOL, OperationFactory.create(Data::school));
-        PROTOTYPE.registerOperation(PUA.location("spell"), CustomPrototypes.SPELL, OperationFactory.create(Data::spell));
+        PROTOTYPE.registerOperation(PUA.location("school"), ISPrototypes.SCHOOL, OperationFactory.create(Data::school));
+        PROTOTYPE.registerOperation(PUA.location("spell"), ISPrototypes.SPELL, OperationFactory.create(Data::spell));
 
         PROTOTYPE.registerOperation(PUA.location("level"), BuiltinPrototypes.NUMBER, OperationFactory.create(Data::level));
         PROTOTYPE.registerOperation(PUA.location("min_level_rarity"), BuiltinPrototypes.NUMBER, OperationFactory.create(data -> (double) data.spell.getMinLevelForRarity(data.rarity)));
