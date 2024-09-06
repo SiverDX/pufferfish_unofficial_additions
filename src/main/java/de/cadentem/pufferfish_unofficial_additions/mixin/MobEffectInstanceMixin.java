@@ -2,6 +2,7 @@ package de.cadentem.pufferfish_unofficial_additions.mixin;
 
 import de.cadentem.pufferfish_unofficial_additions.misc.ModificationHandler;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.effect.MobEffectInstance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -28,8 +29,10 @@ public abstract class MobEffectInstanceMixin implements ModificationHandler {
     }
 
     @Inject(method = "save", at = @At("TAIL"))
-    private void pufferfish_unofficial_additions$saveModified(final CompoundTag tag, final CallbackInfoReturnable<CompoundTag> callback) {
-        tag.putBoolean(pufferfish_unofficial_additions$TAG, pufferfish_unofficial_additions$modified);
+    private void pufferfish_unofficial_additions$saveModified(final CallbackInfoReturnable<Tag> callback) {
+        if (callback.getReturnValue() instanceof CompoundTag tag) {
+            tag.putBoolean(pufferfish_unofficial_additions$TAG, pufferfish_unofficial_additions$modified);
+        }
     }
 
     @Inject(method = "load", at = @At("TAIL"))

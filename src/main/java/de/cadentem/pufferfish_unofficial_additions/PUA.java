@@ -10,10 +10,10 @@ import de.cadentem.pufferfish_unofficial_additions.experience.HarvestExperienceS
 import de.cadentem.pufferfish_unofficial_additions.experience.irons_spellbooks.SpellCastingExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.rewards.EffectReward;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 @Mod(PUA.MODID)
@@ -28,7 +28,7 @@ public class PUA {
         EffectReward.register();
 
         if (ModList.get().isLoaded("irons_spellbooks")) {
-            MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, ISSEvents::grantSpellExperience);
+            NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, ISSEvents::grantSpellExperience);
             SpellCondition.register();
             SchoolCondition.register();
             SpellCastingExperienceSource.register();
@@ -36,6 +36,6 @@ public class PUA {
     }
 
     public static ResourceLocation location(final String path) {
-        return new ResourceLocation(MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 }

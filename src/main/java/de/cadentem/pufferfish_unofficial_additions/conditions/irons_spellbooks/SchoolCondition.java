@@ -34,7 +34,7 @@ public class SchoolCondition implements Operation<SchoolType, Boolean> {
 
     public static Result<SchoolCondition, Problem> parse(final JsonObject rootObject) {
         ArrayList<Problem> problems = new ArrayList<>();
-        Optional<HolderSet<SchoolType>> optional = rootObject.get("school").andThen(ExtendedJson::parseSchoolOrSchoolTag).ifFailure(problems::add).getSuccess();
+        Optional<HolderSet<SchoolType>> optional = rootObject.get("school").andThen(ExtendedJson::parseSchool).ifFailure(problems::add).getSuccess();
         return problems.isEmpty() ? Result.success(new SchoolCondition(optional.orElseThrow())) : Result.failure(Problem.combine(problems));
     }
 

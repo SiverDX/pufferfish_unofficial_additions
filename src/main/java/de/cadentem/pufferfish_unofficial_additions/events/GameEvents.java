@@ -2,22 +2,22 @@ package de.cadentem.pufferfish_unofficial_additions.events;
 
 import de.cadentem.pufferfish_unofficial_additions.experience.FishingExperienceSource;
 import de.cadentem.pufferfish_unofficial_additions.rewards.EffectReward;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.event.entity.player.ItemFishedEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
+import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.puffish.skillsmod.api.SkillsAPI;
 
-@Mod.EventBusSubscriber
-public class ForgeEvents {
+@EventBusSubscriber
+public class GameEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void grantFishingExperience(final ItemFishedEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
@@ -32,11 +32,11 @@ public class ForgeEvents {
     @SubscribeEvent
     public static void immuneEffects(final MobEffectEvent.Applicable event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            MobEffect effect = event.getEffectInstance().getEffect();
+            Holder<MobEffect> effect = event.getEffectInstance().getEffect();
             int amplifier = event.getEffectInstance().getAmplifier();
 
             if (EffectReward.isImmune(player.getUUID(), effect, amplifier)) {
-                event.setResult(Event.Result.DENY);
+                event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
         }
     }
@@ -47,7 +47,7 @@ public class ForgeEvents {
         MobEffectInstance instance = event.getEffectInstance();
 
         if (event.getEntity() instanceof ServerPlayer player && instance != null && instance.isInfiniteDuration()) {
-            MobEffect effect = instance.getEffect();
+            Holder<MobEffect> effect = instance.getEffect();
             int amplifier = instance.getAmplifier();
 
             if (EffectReward.shouldRemove(player.getUUID(), effect, amplifier)) {

@@ -34,7 +34,7 @@ public class SpellCondition implements Operation<AbstractSpell, Boolean> {
 
     public static Result<SpellCondition, Problem> parse(final JsonObject rootObject) {
         ArrayList<Problem> problems = new ArrayList<>();
-        Optional<HolderSet<AbstractSpell>> optional = rootObject.get("spell").andThen(ExtendedJson::parseSpellOrSpellTag).ifFailure(problems::add).getSuccess();
+        Optional<HolderSet<AbstractSpell>> optional = rootObject.get("spell").andThen(ExtendedJson::parseSpell).ifFailure(problems::add).getSuccess();
         return problems.isEmpty() ? Result.success(new SpellCondition(optional.orElseThrow())) : Result.failure(Problem.combine(problems));
     }
 

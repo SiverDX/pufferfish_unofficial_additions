@@ -1,6 +1,6 @@
 package de.cadentem.pufferfish_unofficial_additions.mixin;
 
-import net.minecraftforge.fml.loading.LoadingModList;
+import net.neoforged.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -15,7 +15,9 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
     public void onLoad(final String mixinPackage) { /* Nothing to do */ }
 
     @Override
-    public String getRefMapperConfig() { /* Nothing to do */ return null; }
+    public String getRefMapperConfig() {
+        return null;
+    }
 
     @Override
     public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
@@ -34,7 +36,9 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
     public void acceptTargets(final Set<String> myTargets, final Set<String> otherTargets) { /* Nothing to do */ }
 
     @Override
-    public List<String> getMixins() { /* Nothing to do */ return null; }
+    public List<String> getMixins() {
+        return null;
+    }
 
     @Override
     public void preApply(final String targetClassName, final ClassNode targetClass, final String mixinClassName, final IMixinInfo mixinInfo) { /* Nothing to do */ }

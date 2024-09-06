@@ -1,5 +1,6 @@
 package de.cadentem.pufferfish_unofficial_additions.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import de.cadentem.pufferfish_unofficial_additions.experience.HarvestExperienceSource;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -13,15 +14,13 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.puffish.skillsmod.api.SkillsAPI;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = LootTable.class, priority = /* Temporarily due to Majrusz Library auto-cancelling */ 750)
+@Mixin(value = LootTable.class, priority = /* In case mods auto-cancel the event by setting a return value */ 750)
 public class LootTableMixin {
-    @Inject(method = "getRandomItems(Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/ForgeHooks;modifyLoot(Lnet/minecraft/resources/ResourceLocation;Lit/unimi/dsi/fastutil/objects/ObjectArrayList;Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", shift = At.Shift.BY, by = 2, remap = false))
-    private void pufferfish_unofficial_additions$applyExperienceSource(final LootContext context, final CallbackInfoReturnable<ObjectArrayList<ItemStack>> callback, @Local final ObjectArrayList<ItemStack> loot) {
+    @ModifyReturnValue(method = "getRandomItems(Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;", at = @At(value = "RETURN"))
+    private ObjectArrayList<ItemStack> pufferfish_unofficial_additions$applyExperienceSource(final ObjectArrayList<ItemStack> loot, @Local(argsOnly = true) final LootContext context) {
         if (!context.hasParam(LootContextParams.BLOCK_STATE) || !context.hasParam(LootContextParams.THIS_ENTITY)) {
-            return;
+            return loot;
         }
 
         BlockState state = context.getParam(LootContextParams.BLOCK_STATE);
@@ -37,5 +36,7 @@ public class LootTableMixin {
         if (entity instanceof ServerPlayer serverPlayer) {
             SkillsAPI.updateExperienceSources(serverPlayer, HarvestExperienceSource.class, source -> source.getValue(serverPlayer, state, tool, loot));
         }
+
+        return loot;
     }
 }

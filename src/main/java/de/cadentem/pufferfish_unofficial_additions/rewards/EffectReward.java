@@ -2,6 +2,8 @@ package de.cadentem.pufferfish_unofficial_additions.rewards;
 
 import de.cadentem.pufferfish_unofficial_additions.PUA;
 import de.cadentem.pufferfish_unofficial_additions.misc.ModificationHandler;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -26,12 +28,12 @@ public class EffectReward implements Reward {
 
     private static final DurationModification EMPTY_DURATION_MODIFICATION = new DurationModification(Operation.NONE, 0);
 
-    private final MobEffect effect;
+    private final Holder<MobEffect> effect;
     private final Type type;
     private final DurationModification durationModification;
     private final int amplifier;
 
-    private EffectReward(final MobEffect effect, final Type type, final DurationModification durationModification, final int amplifier) {
+    private EffectReward(final Holder<MobEffect> effect, final Type type, final DurationModification durationModification, final int amplifier) {
         this.effect = effect;
         this.type = type;
         this.durationModification = durationModification;
@@ -42,7 +44,7 @@ public class EffectReward implements Reward {
         SkillsAPI.registerReward(ID, EffectReward::parse);
     }
 
-    public static boolean isImmune(final UUID uuid, final MobEffect effect, final int amplifier) {
+    public static boolean isImmune(final UUID uuid, final Holder<MobEffect> effect, final int amplifier) {
         return getData(uuid).stream().anyMatch(data -> data.type == Type.IMMUNE && data.effect == effect && amplifier <= data.amplifier);
     }
 
@@ -53,9 +55,9 @@ public class EffectReward implements Reward {
     private static Result<EffectReward, Problem> parse(final JsonObject rootObject) {
         List<Problem> problems = new ArrayList<>();
 
-        Optional<MobEffect> effect = rootObject.get("effect").andThen(BuiltinJson::parseEffect).ifFailure(problems::add).getSuccess();
+        Optional<HolderSet<MobEffect>> effect = rootObject.get("effect").andThen(BuiltinJson::parseEffectOrEffectTag).ifFailure(problems::add).getSuccess();
         Optional<String> typeRaw = rootObject.getString("type").ifFailure(problems::add).getSuccess();
-        Optional<Integer> amplifierOptional = rootObject.getInt("amplifierOptional").ifFailure(problems::add).getSuccess();
+        Optional<Integer> amplifierOptional = rootObject.getInt("amplifier").ifFailure(problems::add).getSuccess();
 
         if (typeRaw.isPresent()) {
             Type type = Type.get(typeRaw.get());
@@ -81,7 +83,12 @@ public class EffectReward implements Reward {
                 }
 
                 if (problems.isEmpty()) {
-                    return Result.success(new EffectReward(effect.orElseThrow(), type, durationModification, amplifier));
+                    HolderSet<MobEffect> set = effect.orElseThrow();
+
+                    if (set.size() > 0) {
+                        // TODO :: support multiple entries?
+                        return Result.success(new EffectReward(set.get(0), type, durationModification, amplifier));
+                    }
                 }
             }
         }
@@ -89,7 +96,7 @@ public class EffectReward implements Reward {
         return Result.failure(Problem.combine(problems));
     }
 
-    public static boolean shouldRemove(final UUID uuid, final MobEffect effect, final int amplifier) {
+    public static boolean shouldRemove(final UUID uuid, final Holder<MobEffect> effect, final int amplifier) {
         return getData(uuid).stream().anyMatch(data -> data.type == Type.GRANT && data.effect == effect && data.amplifier == amplifier);
     }
 
@@ -107,7 +114,7 @@ public class EffectReward implements Reward {
 
     public static MobEffectInstance modifyEffect(final ServerPlayer player, final MobEffectInstance instance) {
         if (!instance.isInfiniteDuration() && !((ModificationHandler) instance).pufferfish_unofficial_additions$wasModified()) {
-            MobEffect effect = instance.getEffect();
+            Holder<MobEffect> effect = instance.getEffect();
 
             int modifiedDuration = EffectReward.getModifiedDuration(player.getUUID(), effect, instance.getDuration());
             int modifiedAmplifier = EffectReward.getModifiedAmplifier(player.getUUID(), effect, instance.getAmplifier());
@@ -122,7 +129,7 @@ public class EffectReward implements Reward {
         return instance;
     }
 
-    private static int getModifiedDuration(final UUID uuid, final MobEffect effect, int duration) {
+    private static int getModifiedDuration(final UUID uuid, final Holder<MobEffect> effect, int duration) {
         List<Data> modifications = getData(uuid).stream().filter(data -> data.type == Type.MODIFY && data.effect == effect).toList();
 
         for (Data data : modifications) {
@@ -144,7 +151,7 @@ public class EffectReward implements Reward {
         return Math.max(0, duration);
     }
 
-    private static int getModifiedAmplifier(final UUID uuid, final MobEffect effect, int amplifier) {
+    private static int getModifiedAmplifier(final UUID uuid, final Holder<MobEffect> effect, int amplifier) {
         List<Data> modifications = getData(uuid).stream().filter(data -> data.type == Type.MODIFY && data.effect == effect).toList();
 
         for (Data data : modifications) {
@@ -271,6 +278,6 @@ public class EffectReward implements Reward {
         }
     }
 
-    public record Data(MobEffect effect, Type type, DurationModification durationModification, int amplifier) { /* Nothing to do */ }
+    public record Data(Holder<MobEffect> effect, Type type, DurationModification durationModification, int amplifier) { /* Nothing to do */ }
     public record DurationModification(Operation operation, double amount) { /* Nothing to do */ }
 }

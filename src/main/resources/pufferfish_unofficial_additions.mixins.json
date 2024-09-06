@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "package": "de.cadentem.pufferfish_unofficial_additions.mixin",
   "plugin": "de.cadentem.pufferfish_unofficial_additions.mixin.ApplyMixinPlugin",
   "refmap": "pufferfish_unofficial_additions.refmap.json",
@@ -9,12 +9,7 @@
     "LivingEntityMixin",
     "LootTableMixin",
     "MobEffectInstanceMixin",
-    "PowderSnowBlockMixin"
-  ],
-  "client": [
-    "puffish_skills.ForgeClientMainMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+    "PowderSnowBlockMixin",
+    "puffish_skills.BuiltinJsonAccess"
+  ]
 }
