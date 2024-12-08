@@ -61,21 +61,15 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     /* --- Dependency --- */
-    implementation "curse.maven:puffish-skills-835091:5551789" // 0.13.2
+    implementation "curse.maven:puffish-skills-835091:5928634" // 0.14.3
 
     /* --- Compatibility --- */
-    implementation "curse.maven:irons-spells-n-spellbooks-855414:5834785" // 3.8.2
+    implementation "curse.maven:irons-spells-n-spellbooks-855414:5934943" // 3.8.5
     implementation "curse.maven:caelus-308989:5442975" // 7.0.0
     implementation "curse.maven:geckolib-388172:5664570" // 4.6.2
     implementation "curse.maven:adorned-1036809:5652826" // 9.1.2
 
     implementation "curse.maven:aquaculture-60028:5713551" // 2.7.10
-
-//    /* --- Mixin Configuration --- */
-//    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
-//    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}")) {
-//        jarJar.ranged(it, "[${mixin_extras_version},)")
-//    }
 }
 
 tasks.withType(ProcessResources).configureEach {

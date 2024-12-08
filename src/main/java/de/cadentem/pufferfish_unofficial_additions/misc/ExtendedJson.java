@@ -12,10 +12,10 @@ import net.puffish.skillsmod.api.util.Result;
 
 public class ExtendedJson {
     public static Result<HolderSet<AbstractSpell>, Problem> parseSpell(final JsonElement element) {
-        return BuiltinJsonAccess.pufferfish_unofficial_additions$parseSomethingOrSomethingTag(element, SpellRegistry.REGISTRY, () -> "Expected a valid spell", resource -> "Unknown spell / spell tag: [" + resource + "]");
+        return BuiltinJsonAccess.pufferfish_unofficial_additions$parseSomethingOrSomethingTag(element, SpellRegistry.REGISTRY, () -> "Expected a valid spell", spell -> "Invalid spell or spell tag [" + spell + "]", resource -> "Unknown spell / spell tag: [" + resource + "]");
     }
 
     public static Result<HolderSet<SchoolType>, Problem> parseSchool(final JsonElement element) {
-        return BuiltinJsonAccess.pufferfish_unofficial_additions$parseSomethingOrSomethingTag(element, SchoolRegistry.REGISTRY, () -> "Expected a valid school", resource -> "Unknown school / school tag: [" + resource + "]");
+        return BuiltinJsonAccess.pufferfish_unofficial_additions$parseSomethingOrSomethingTag(element, SchoolRegistry.REGISTRY, () -> "Expected a valid school", school -> "Invalid school or school tag [" + school + "]", resource -> "Unknown school / school tag: [" + resource + "]");
     }
 }
