@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 @Mixin(value = BuiltinJson.class, remap = false)
 public interface BuiltinJsonAccess {
     @Invoker("parseSomethingOrSomethingTag")
-    static <T> Result<HolderSet<T>, Problem> pufferfish_unofficial_additions$parseSomethingOrSomethingTag(final JsonElement element, final Registry<T> registry, final Supplier<String> expected, final Function<String, String> invalid, final Function<ResourceLocation, String> unknown) {
+    static <T> Result<HolderSet<T>, Problem> pufferfish_unofficial_additions$parseSomethingOrSomethingTag(final JsonElement element, final Registry<T> registry, final String type) {
         throw new AssertionError();
     }
 }
