@@ -16,7 +16,7 @@ import net.puffish.skillsmod.api.util.Result;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class SpellCondition implements Operation<AbstractSpell, Boolean> {
+public class SpellCondition implements Operation<Holder<AbstractSpell>, Boolean> {
     private final HolderSet<AbstractSpell> spellEntries;
 
     private SpellCondition(final HolderSet<AbstractSpell> spellEntries) {
@@ -38,7 +38,7 @@ public class SpellCondition implements Operation<AbstractSpell, Boolean> {
     }
 
     @Override
-    public Optional<Boolean> apply(final AbstractSpell spell) {
-        return Optional.of(spellEntries.contains(Holder.direct(spell)));
+    public Optional<Boolean> apply(final Holder<AbstractSpell> spell) {
+        return Optional.of(spellEntries.contains(spell));
     }
 }

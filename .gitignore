@@ -116,6 +116,8 @@ run
 run-data
 runs
 
+/test
+
 *.log.gz
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)

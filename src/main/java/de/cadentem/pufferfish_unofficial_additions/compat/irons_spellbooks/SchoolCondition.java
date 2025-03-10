@@ -16,7 +16,7 @@ import net.puffish.skillsmod.api.util.Result;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class SchoolCondition implements Operation<SchoolType, Boolean> {
+public class SchoolCondition implements Operation<Holder<SchoolType>, Boolean> {
     private final HolderSet<SchoolType> schoolEntries;
 
     private SchoolCondition(final HolderSet<SchoolType> schoolEntries) {
@@ -38,7 +38,7 @@ public class SchoolCondition implements Operation<SchoolType, Boolean> {
     }
 
     @Override
-    public Optional<Boolean> apply(final SchoolType school) {
-        return Optional.of(schoolEntries.contains(Holder.direct(school)));
+    public Optional<Boolean> apply(final Holder<SchoolType> school) {
+        return Optional.of(schoolEntries.contains(school));
     }
 }
