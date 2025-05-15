@@ -19,6 +19,7 @@ import net.puffish.skillsmod.api.reward.RewardUpdateContext;
 import net.puffish.skillsmod.api.util.Problem;
 import net.puffish.skillsmod.api.util.Result;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -112,14 +113,24 @@ public class EffectReward implements Reward {
         });
     }
 
-    public static MobEffectInstance modifyEffect(final ServerPlayer player, final MobEffectInstance instance) {
-        if (!instance.isInfiniteDuration() && !((ModificationHandler) instance).pufferfish_unofficial_additions$wasModified()) {
+    public static @Nullable MobEffectInstance modifyEffect(final ServerPlayer player, final MobEffectInstance instance) {
+        if (!((ModificationHandler) instance).pufferfish_unofficial_additions$wasModified()) {
             Holder<MobEffect> effect = instance.getEffect();
 
-            int modifiedDuration = EffectReward.getModifiedDuration(player.getUUID(), effect, instance.getDuration());
             int modifiedAmplifier = EffectReward.getModifiedAmplifier(player.getUUID(), effect, instance.getAmplifier());
+            int modifiedDuration = instance.getDuration();
 
-            if (modifiedAmplifier >= 0 && modifiedDuration > 0 && (instance.getDuration() != modifiedDuration || instance.getAmplifier() != modifiedAmplifier)) {
+            if (!instance.isInfiniteDuration()) {
+                // Infinite duration cannot be properly modified
+                modifiedDuration = EffectReward.getModifiedDuration(player.getUUID(), effect, instance.getDuration());
+            }
+
+            if (modifiedAmplifier < 0 || (!instance.isInfiniteDuration() && modifiedDuration <= 0)) {
+                // If the subtraction lands on a duration of -1 we don't count that as infinite
+                return null;
+            }
+
+            if (instance.getDuration() != modifiedDuration || instance.getAmplifier() != modifiedAmplifier) {
                 MobEffectInstance modifiedInstance = new MobEffectInstance(effect, modifiedDuration, modifiedAmplifier, instance.isAmbient(), instance.isVisible(), instance.showIcon());
                 ((ModificationHandler) modifiedInstance).pufferfish_unofficial_additions$setModified(true);
                 return modifiedInstance;

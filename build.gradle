@@ -61,15 +61,15 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     /* --- Dependency --- */
-    implementation "curse.maven:puffish-skills-835091:6221210" // 0.15.1
+    implementation "curse.maven:puffish-skills-835091:6508482" // 0.15.5
 
     /* --- Compatibility --- */
-    implementation "curse.maven:irons-spells-n-spellbooks-855414:6282642" // 3.9.1
-    implementation "curse.maven:geckolib-388172:6027599" // 4.7.3
+    implementation "curse.maven:irons-spells-n-spellbooks-855414:6497109" // 3.12.0
+    implementation "curse.maven:geckolib-388172:6304958" // 4.7.5.1
     implementation "curse.maven:playeranimator-658587:6024462" // 2.0.1
     implementation "curse.maven:curios-309927:6274154" // 9.2.3
 
-    compileOnly "curse.maven:aquaculture-60028:5713551" // 2.7.10
+    compileOnly "curse.maven:aquaculture-60028:6357106" // 2.7.14
 
     /* --- Test --- */
     implementation "curse.maven:puffish-attributes-991341:6157076" // 0.7.2
