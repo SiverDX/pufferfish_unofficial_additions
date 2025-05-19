@@ -115,6 +115,7 @@ gradle-app.setting
 run
 run-data
 runs
+test
 
 *.log.gz
 

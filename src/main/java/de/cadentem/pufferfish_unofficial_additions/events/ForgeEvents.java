@@ -46,7 +46,7 @@ public class ForgeEvents {
     public static void retainEffects(final MobEffectEvent.Remove event) {
         MobEffectInstance instance = event.getEffectInstance();
 
-        if (event.getEntity() instanceof ServerPlayer player && instance != null && instance.isInfiniteDuration()) {
+        if (event.getEntity() instanceof ServerPlayer player && instance != null && instance.getDuration() == -1) {
             MobEffect effect = instance.getEffect();
             int amplifier = instance.getAmplifier();
 

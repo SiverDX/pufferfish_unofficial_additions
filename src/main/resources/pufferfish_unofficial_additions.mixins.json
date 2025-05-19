@@ -9,6 +9,11 @@
     "LivingEntityMixin",
     "LootTableMixin",
     "MobEffectInstanceMixin",
+    "MobEffectUtilMixin",
     "PowderSnowBlockMixin"
+  ],
+  "client": [
+    "client.GuiMixin",
+    "client.LocalPlayerMixin"
   ]
 }

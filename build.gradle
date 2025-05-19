@@ -83,17 +83,20 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     /* --- Dependency --- */
-    implementation fg.deobf("curse.maven:puffish-skills-835091:5361193") // 1.19.2 - 0.12.2
+    implementation fg.deobf("curse.maven:puffish-skills-835091:6540748") // 0.16.0
 
     /* --- Other --- */
-    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:5377912") // 1.19.2 - 3.1.7
-    /* irons_spellbooks */ implementation fg.deobf("curse.maven:playeranimator-658587:4418149") // 1.19.2 - 1.0.2
-    /* irons_spellbooks */ implementation fg.deobf("curse.maven:caelus-308989:3929284") // 1.19.2 - 3.0.0.6
-    /* irons_spellbooks */ implementation fg.deobf("curse.maven:geckolib-388172:4407241") // 1.19.2 - 3.1.40
-    /* irons_spellbooks */ implementation fg.deobf("curse.maven:curios-309927:4985476") // 1.19.2 - 5.1.4.4
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:5616391") // 3.4.0
+    /* irons_spellbooks */ implementation fg.deobf("curse.maven:playeranimator-658587:4418149") // 1.0.2
+    /* irons_spellbooks */ implementation fg.deobf("curse.maven:caelus-308989:3929284") // 3.0.0.6
+    /* irons_spellbooks */ implementation fg.deobf("curse.maven:geckolib-388172:4407241") // 3.1.40
+    /* irons_spellbooks */ implementation fg.deobf("curse.maven:curios-309927:4985476") // 5.1.4.4
+
+    /* --- Test --- */
+    implementation fg.deobf("curse.maven:puffish-attributes-991341:6319592") // 0.73
 
     /* --- For Mixin --- */
-    compileOnly fg.deobf("curse.maven:aquaculture-60028:4074684") // 1.19.2 - 2.4.8
+    compileOnly fg.deobf("curse.maven:aquaculture-60028:4074684") // 2.4.8
 
     /* --- Mixin Configuration --- */
     implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${mixin_squared_version}"))
