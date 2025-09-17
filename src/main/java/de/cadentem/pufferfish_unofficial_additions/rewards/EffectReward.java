@@ -21,7 +21,12 @@ import net.puffish.skillsmod.api.util.Result;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 public class EffectReward implements Reward {
     public static final ResourceLocation ID = PUA.location("effect");
@@ -33,12 +38,14 @@ public class EffectReward implements Reward {
     private final Type type;
     private final DurationModification durationModification;
     private final int amplifier;
+    private final boolean showIcon;
 
-    private EffectReward(final Holder<MobEffect> effect, final Type type, final DurationModification durationModification, final int amplifier) {
+    private EffectReward(final Holder<MobEffect> effect, final Type type, final DurationModification durationModification, final int amplifier, final boolean showIcon) {
         this.effect = effect;
         this.type = type;
         this.durationModification = durationModification;
         this.amplifier = amplifier;
+        this.showIcon = showIcon;
     }
 
     public static void register() {
@@ -59,6 +66,10 @@ public class EffectReward implements Reward {
         Optional<HolderSet<MobEffect>> effect = rootObject.get("effect").andThen(BuiltinJson::parseEffectOrEffectTag).ifFailure(problems::add).getSuccess();
         Optional<String> typeRaw = rootObject.getString("type").ifFailure(problems::add).getSuccess();
         Optional<Integer> amplifierOptional = rootObject.getInt("amplifier").ifFailure(problems::add).getSuccess();
+
+        boolean showIcon = rootObject.get("show_icon").getSuccess()
+                .flatMap(element -> element.getAsBoolean().ifFailure(problems::add).getSuccess())
+                .orElse(false);
 
         if (typeRaw.isPresent()) {
             Type type = Type.get(typeRaw.get());
@@ -88,7 +99,7 @@ public class EffectReward implements Reward {
 
                     if (set.size() > 0) {
                         // TODO :: support multiple entries?
-                        return Result.success(new EffectReward(set.get(0), type, durationModification, amplifier));
+                        return Result.success(new EffectReward(set.get(0), type, durationModification, amplifier, showIcon));
                     }
                 }
             }
@@ -205,12 +216,14 @@ public class EffectReward implements Reward {
                 }
             }
 
+            Data entry = new Data(effect, type, durationModification, amplifier, showIcon);
+
             for (int i = 0; i < active; i++) {
-                data.add(new Data(effect, type, durationModification, amplifier));
+                data.add(entry);
             }
 
             if (type == Type.GRANT) {
-                addEffect(player, new Data(effect, type, durationModification, amplifier));
+                addEffect(player, entry);
             }
         }
     }
@@ -239,7 +252,7 @@ public class EffectReward implements Reward {
     }
 
     private static void addEffect(final ServerPlayer player, final Data data) {
-        player.addEffect(new MobEffectInstance(data.effect, MobEffectInstance.INFINITE_DURATION, data.amplifier, false, /* No particles */ false));
+        player.addEffect(new MobEffectInstance(data.effect, MobEffectInstance.INFINITE_DURATION, data.amplifier, false, /* No particles */ false, data.showIcon()));
     }
 
     private boolean matches(final Data data) {
@@ -289,6 +302,6 @@ public class EffectReward implements Reward {
         }
     }
 
-    public record Data(Holder<MobEffect> effect, Type type, DurationModification durationModification, int amplifier) { /* Nothing to do */ }
+    public record Data(Holder<MobEffect> effect, Type type, DurationModification durationModification, int amplifier, boolean showIcon) { /* Nothing to do */ }
     public record DurationModification(Operation operation, double amount) { /* Nothing to do */ }
 }
