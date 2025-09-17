@@ -143,6 +143,9 @@ The data consists of:
 - `duration_modification`: Only applicable to the type `MODIFY` in the format of `<operation><amount>` (e.g. `x1.25` -> multiply by `1.25`)
   - Valid operations are `+`, `-`, `x` and `/` 
   - This element is optional (even for `MODIFY`)
+- `show_icon`: Optional field, determines whether the effect is shown in the UI or not 
+  - Only relevant for `GRANT`
+  - Default is `false`
 
 Apply effects (infinite duration):
 - Before removing the reward from the definition you'll have to reset the skills (or manually remove the effects yourself)
@@ -153,7 +156,8 @@ Apply effects (infinite duration):
   "data": {
     "effect": "minecraft:regeneration",
     "amplifier": 0,
-    "type": "GRANT"
+    "type": "GRANT",
+    "show_icon": true
   }
 }
 ```
