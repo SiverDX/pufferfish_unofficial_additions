@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.puffish.skillsmod.api.SkillsAPI;
+import org.jetbrains.annotations.Nullable;
 
 public class ISSEvents {
     public static void grantSpellExperience(final SpellOnCastEvent event) {
@@ -27,6 +28,11 @@ public class ISSEvents {
 
         Holder<SchoolType> school = getHolder(caster.registryAccess(), SchoolRegistry.SCHOOL_REGISTRY_KEY, event.getSchoolType().getId());
         Holder<AbstractSpell> spellHolder = getHolder(caster.registryAccess(), SpellRegistry.SPELL_REGISTRY_KEY, ResourceLocation.tryParse(event.getSpellId()));
+
+        if (school == null || spellHolder == null) {
+            PUA.LOG.debug("School [{}] or spell [{}] does not exist / is not registered", event.getSchoolType().getId(), event.getSpellId());
+            return;
+        }
 
         ItemStack mainHand = caster.getMainHandItem();
         ItemStack spellbook = Utils.getPlayerSpellbookStack(caster);
@@ -55,7 +61,7 @@ public class ISSEvents {
         SkillsAPI.updateExperienceSources(caster, SpellCastingExperienceSource.class, source -> source.getValue(data));
     }
 
-    private static <T> Holder<T> getHolder(final RegistryAccess access, final ResourceKey<Registry<T>> key, final ResourceLocation resource) {
-        return access.registryOrThrow(key).getHolderOrThrow(ResourceKey.create(key, resource));
+    private static <T> @Nullable Holder<T> getHolder(final RegistryAccess access, final ResourceKey<Registry<T>> key, final ResourceLocation resource) {
+        return access.registryOrThrow(key).getHolder(ResourceKey.create(key, resource)).orElse(null);
     }
 }
