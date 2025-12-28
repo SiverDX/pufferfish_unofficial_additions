@@ -37,6 +37,12 @@ public abstract class MobEffectInstanceMixin implements ModificationHandler {
 
     @Inject(method = "load", at = @At("TAIL"))
     private static void pufferfish_unofficial_additions$loadModified(final CompoundTag nbt, final CallbackInfoReturnable<MobEffectInstance> callback) {
-        ((ModificationHandler) callback.getReturnValue()).pufferfish_unofficial_additions$setModified(nbt.getBoolean(pufferfish_unofficial_additions$TAG));
+        MobEffectInstance instance = callback.getReturnValue();
+
+        if (instance == null) {
+            return;
+        }
+
+        ((ModificationHandler) instance).pufferfish_unofficial_additions$setModified(nbt.getBoolean(pufferfish_unofficial_additions$TAG));
     }
 }
